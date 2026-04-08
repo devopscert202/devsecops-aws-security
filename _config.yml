@@ -1,17 +1,54 @@
+# Site settings
 title: DevSecOps Principles & AWS Cloud Security
 description: Interactive learning resource for DevSecOps fundamentals, threat modeling, pipeline security, and AWS cloud security best practices.
 baseurl: "/devsecops-aws-security"
 url: "https://devopscert202.github.io"
 
+# Theme
+theme: jekyll-theme-cayman
+
+# Markdown settings
 markdown: kramdown
 kramdown:
   input: GFM
-  hard_wrap: false
+  syntax_highlighter: rouge
 
+# Plugins
 plugins:
-  - jekyll-seo-tag
+  - jekyll-relative-links
+  - jekyll-optional-front-matter
+  - jekyll-readme-index
+  - jekyll-titles-from-headings
 
+# Plugin configurations
+relative_links:
+  enabled: true
+  collections: false
+
+optional_front_matter:
+  remove_originals: false
+
+titles_from_headings:
+  enabled: true
+  strip_title: false
+  collections: false
+
+# Exclude from processing
 exclude:
+  - .git
+  - .github
+  - node_modules
+  - vendor
   - README.md
-  - .gitignore
-  - .gitattributes
+
+# Include specific files
+include:
+  - devsecops/docs
+  - devsecops/labs
+  - devsecops/html
+  - devsecops/labmanuals
+  - devsecops/projects
+
+# HTML files handling
+keep_files:
+  - devsecops/html
