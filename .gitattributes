@@ -1,0 +1,29 @@
+# Enforce LF line endings
+* text=auto eol=lf
+
+# Markdown
+*.md text eol=lf
+
+# HTML / CSS / JS
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+
+# YAML
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Python
+*.py text eol=lf
+
+# JSON
+*.json text eol=lf
+
+# Shell
+*.sh text eol=lf
+
+# Binary
+*.png binary
+*.jpg binary
+*.gif binary
+*.pdf binary

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Is DevSecOps? — DevSecOps Interactive Learning</title>
+  <style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+@media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+.diagram-wrap { background: var(--sec-sky); border-radius: var(--radius); padding: 20px; margin: 16px 0; overflow-x: auto; }
+.diagram-wrap svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+.shift-track { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; margin: 16px 0; }
+.shift-step { flex: 1 1 120px; background: white; border: 2px solid var(--sec-blue); border-radius: 10px; padding: 14px; text-align: center; font-weight: 600; font-size: 0.9rem; }
+.shift-step.sec { background: linear-gradient(135deg, #fef3c7, #fff); border-color: var(--amber); }
+.shift-arrow { align-self: center; font-size: 1.4rem; color: var(--sec-blue); }
+.benefit-icon { font-size: 1.6rem; margin-bottom: 8px; }
+.tool-cat { border-left: 4px solid var(--sec-blue); padding-left: 14px; margin: 12px 0; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header class="hero">
+    <a href="index.html" class="home-link">&#8962; Home</a>
+    <h1>What Is DevSecOps?</h1>
+    <p class="subtitle">Security owned by everyone, automated in the pipeline, and measured like any other quality attribute.</p>
+  </header>
+
+  <div class="card">
+    <h2>Definition</h2>
+    <p><strong>DevSecOps</strong> extends DevOps by baking security practices into every phase of the software lifecycle: planning, coding, building, testing, releasing, deploying, operating, and monitoring. Instead of a late-stage gate, security becomes continuous feedback—policy as code, automated scans, threat modeling, and rapid remediation.</p>
+  </div>
+
+  <div class="card">
+    <h2>Security in the Dev + Ops cycle</h2>
+    <p class="subtitle" style="margin-bottom:12px;">Security is not a separate ring—it reinforces each step of the infinite loop.</p>
+    <div class="diagram-wrap" aria-label="DevSecOps cycle diagram">
+      <svg viewBox="0 0 520 320" width="520" height="320" role="img">
+        <title>DevSecOps: security integrated in Dev and Ops cycle</title>
+        <defs>
+          <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#326ce5;stop-opacity:0.15"/>
+            <stop offset="100%" style="stop-color:#1a4bc6;stop-opacity:0.08"/>
+          </linearGradient>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 z" fill="#326ce5"/>
+          </marker>
+        </defs>
+        <ellipse cx="260" cy="160" rx="200" ry="118" fill="url(#g1)" stroke="#326ce5" stroke-width="2" stroke-dasharray="8 6"/>
+        <text x="260" y="38" text-anchor="middle" fill="#1a4bc6" font-size="14" font-weight="700">Plan → Code → Build → Test</text>
+        <text x="260" y="288" text-anchor="middle" fill="#1a4bc6" font-size="14" font-weight="700">Release → Deploy → Operate → Monitor</text>
+        <circle cx="260" cy="160" r="52" fill="#fff" stroke="#326ce5" stroke-width="3"/>
+        <text x="260" y="155" text-anchor="middle" fill="#326ce5" font-size="13" font-weight="800">SECURITY</text>
+        <text x="260" y="172" text-anchor="middle" fill="#64748b" font-size="10">shift-left +</text>
+        <text x="260" y="186" text-anchor="middle" fill="#64748b" font-size="10">continuous</text>
+        <path d="M 260 108 A 90 90 0 0 1 350 160" fill="none" stroke="#326ce5" stroke-width="3" marker-end="url(#arr)"/>
+        <path d="M 350 160 A 90 90 0 0 1 260 212" fill="none" stroke="#326ce5" stroke-width="3" marker-end="url(#arr)"/>
+        <path d="M 260 212 A 90 90 0 0 1 170 160" fill="none" stroke="#326ce5" stroke-width="3" marker-end="url(#arr)"/>
+        <path d="M 170 160 A 90 90 0 0 1 260 108" fill="none" stroke="#326ce5" stroke-width="3" marker-end="url(#arr)"/>
+        <text x="95" y="100" fill="#0f172a" font-size="11" font-weight="600">Threat models</text>
+        <text x="95" y="118" fill="#64748b" font-size="10">Secure design</text>
+        <text x="360" y="100" fill="#0f172a" font-size="11" font-weight="600">SAST / secrets</text>
+        <text x="360" y="118" fill="#64748b" font-size="10">in CI</text>
+        <text x="360" y="210" fill="#0f172a" font-size="11" font-weight="600">DAST / IAST</text>
+        <text x="360" y="228" fill="#64748b" font-size="10">in test env</text>
+        <text x="85" y="210" fill="#0f172a" font-size="11" font-weight="600">Runtime</text>
+        <text x="85" y="228" fill="#64748b" font-size="10">CSPM, SIEM</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>DevOps vs DevSecOps</h2>
+    <table>
+      <thead><tr><th>Dimension</th><th>Classic DevOps</th><th>DevSecOps</th></tr></thead>
+      <tbody>
+        <tr><td>Security timing</td><td>Often late (pre-prod or audit)</td><td>Continuous, starting in design</td></tr>
+        <tr><td>Ownership</td><td>Security team as gatekeeper</td><td>Shared: devs, ops, security</td></tr>
+        <tr><td>Automation</td><td>Build, deploy, monitor</td><td>+ policy, scans, compliance checks</td></tr>
+        <tr><td>Feedback</td><td>Velocity, availability</td><td>+ risk, CVEs, misconfigurations</td></tr>
+        <tr><td>Culture</td><td>“You build it, you run it”</td><td>“You secure it as you build &amp; run it”</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Shift-left: catch issues earlier</h2>
+    <p>Moving security activities earlier reduces cost and blast radius. The further right a defect is found, the more expensive it is to fix.</p>
+    <div class="shift-track" role="list">
+      <div class="shift-step" role="listitem">Design<br><span class="tag tag-green" style="margin-top:8px;display:inline-block;">cheap fix</span></div>
+      <span class="shift-arrow" aria-hidden="true">→</span>
+      <div class="shift-step" role="listitem">Code</div>
+      <span class="shift-arrow" aria-hidden="true">→</span>
+      <div class="shift-step sec" role="listitem">CI scan</div>
+      <span class="shift-arrow" aria-hidden="true">→</span>
+      <div class="shift-step" role="listitem">Staging</div>
+      <span class="shift-arrow" aria-hidden="true">→</span>
+      <div class="shift-step" role="listitem">Prod<br><span class="tag tag-rose" style="margin-top:8px;display:inline-block;">costly</span></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card" style="margin-bottom:0;">
+      <h2 style="display:flex;align-items:center;gap:10px;"><span class="benefit-icon" aria-hidden="true">&#9889;</span> Benefits</h2>
+      <ul>
+        <li>Faster mean time to remediate (MTTR) for vulnerabilities</li>
+        <li>Fewer emergency patches and fire drills</li>
+        <li>Clear traceability from policy → code → runtime</li>
+        <li>Better alignment with compliance (audit-ready evidence)</li>
+      </ul>
+    </div>
+    <div class="card" style="margin-bottom:0;">
+      <h2 style="display:flex;align-items:center;gap:10px;"><span class="benefit-icon" aria-hidden="true">&#128273;</span> Outcomes</h2>
+      <ul>
+        <li>Secure defaults in templates and golden paths</li>
+        <li>Automated blocking of critical CVEs and secrets</li>
+        <li>Continuous visibility into cloud and app risk</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Key tools by category</h2>
+    <div class="tool-cat"><strong>Pre-commit / secrets:</strong> git-secrets, Gitleaks, TruffleHog</div>
+    <div class="tool-cat"><strong>SAST / quality:</strong> Semgrep, SonarQube, Checkmarx, Fortify</div>
+    <div class="tool-cat"><strong>SCA:</strong> Snyk, OWASP Dependency-Check, npm audit</div>
+    <div class="tool-cat"><strong>DAST / API:</strong> OWASP ZAP, Burp, commercial DAST</div>
+    <div class="tool-cat"><strong>Infrastructure:</strong> Checkov, tfsec, Prowler, CSPM suites</div>
+    <div class="tool-cat"><strong>Runtime / K8s:</strong> Falco, Kyverno, OPA/Gatekeeper</div>
+    <p style="margin-top:14px;color:var(--muted);font-size:0.95rem;">Pick tools that match your stack; integrate results into the same backlog and SLAs as functional bugs.</p>
+  </div>
+</div>
+</body>
+</html>

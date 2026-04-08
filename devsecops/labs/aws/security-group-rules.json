@@ -1,0 +1,45 @@
+{
+  "Description": "Security group for infrastructure validation lab",
+  "GroupName": "devsecops-lab-sg",
+  "InboundRules": [
+    {
+      "Protocol": "tcp",
+      "Port": 22,
+      "Source": "0.0.0.0/0",
+      "Description": "SSH — open to all (misconfiguration example)"
+    },
+    {
+      "Protocol": "tcp",
+      "Port": 3389,
+      "Source": "0.0.0.0/0",
+      "Description": "RDP — open to all (misconfiguration example)"
+    },
+    {
+      "Protocol": "tcp",
+      "Port": 389,
+      "Source": "YOUR_IP/32",
+      "Description": "LDAP — restricted to your IP"
+    }
+  ],
+  "OutboundRules": [
+    {
+      "Protocol": "tcp",
+      "Port": 22,
+      "Source": "0.0.0.0/0",
+      "Description": "SSH outbound"
+    },
+    {
+      "Protocol": "tcp",
+      "Port": 3389,
+      "Source": "0.0.0.0/0",
+      "Description": "RDP outbound"
+    },
+    {
+      "Protocol": "tcp",
+      "Port": 389,
+      "Source": "YOUR_IP/32",
+      "Description": "LDAP outbound — restricted"
+    }
+  ],
+  "Notes": "Replace YOUR_IP with your actual public IP. The SSH and RDP rules open to 0.0.0.0/0 are intentional misconfigurations for the Trusted Advisor validation exercise."
+}

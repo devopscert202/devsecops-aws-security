@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAST vs DAST vs SCA — Comparison — DevSecOps Interactive Learning</title>
+  <style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+@media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0; font-size: 0.9rem; }
+.legend span { padding: 6px 12px; border-radius: 8px; font-weight: 600; }
+.l-sast { background: #dbeafe; color: #1e40af; }
+.l-dast { background: #fef3c7; color: #92400e; }
+.l-sca { background: #ffe4e6; color: #9f1239; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.matrix th, .matrix td { border: 1px solid #e2e8f0; padding: 10px; vertical-align: top; }
+.matrix th { background: var(--sec-sky); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.filter-btn { padding: 8px 14px; border-radius: 999px; border: 2px solid var(--card-border); background: #fff; font-weight: 600; cursor: pointer; font-family: inherit; color: var(--sec-blue-deep); }
+.filter-btn[aria-pressed="true"] { background: var(--sec-blue); color: #fff; border-color: var(--sec-blue); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header class="hero">
+    <a href="index.html" class="home-link">&#8962; Home</a>
+    <h1>SAST vs DAST vs SCA — Comparison</h1>
+    <p class="subtitle">Different layers of defense—use the right signal at the right pipeline stage.</p>
+  </header>
+
+  <div class="card">
+    <h2>Side-by-side comparison</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>SAST</th>
+          <th>DAST</th>
+          <th>SCA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>What it tests</td><td>Source / bytecode patterns &amp; data flow</td><td>Running HTTP app &amp; config behavior</td><td>Third-party packages vs vuln DBs</td></tr>
+        <tr><td>When it runs</td><td>CI on commit/PR; IDE</td><td>After deploy to test env</td><td>CI on lockfile/manifest change</td></tr>
+        <tr><td>Coverage driver</td><td>Code paths (not runtime routes)</td><td>Crawl/OpenAPI + reachable URLs</td><td>Declared dependencies</td></tr>
+        <tr><td>Speed</td><td>Fast to moderate</td><td>Slower (network I/O)</td><td>Fast (metadata + matching)</td></tr>
+        <tr><td>False positives</td><td>Higher without tuning</td><td>Moderate (config dependent)</td><td>Lower for exact version matches</td></tr>
+        <tr><td>Blind spots</td><td>Runtime-only issues</td><td>Source-level API misuse</td><td>In-house code flaws</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Where each fits in the pipeline</h2>
+    <p class="legend" aria-label="Legend">
+      <span class="l-sast">SAST</span>
+      <span class="l-dast">DAST</span>
+      <span class="l-sca">SCA</span>
+    </p>
+    <div style="overflow-x:auto;background:var(--sec-sky);border-radius:var(--radius);padding:16px;">
+      <svg viewBox="0 0 760 140" width="760" height="140" role="img" aria-label="Pipeline diagram">
+        <title>SAST and SCA in build; DAST in test deploy</title>
+        <defs><marker id="arr2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#94a3b8"/></marker></defs>
+        <rect x="10" y="50" width="100" height="50" rx="8" fill="#fff" stroke="#326ce5"/>
+        <text x="60" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#1a4bc6">Code</text>
+        <rect x="130" y="50" width="100" height="50" rx="8" fill="#fff" stroke="#326ce5"/>
+        <text x="180" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#1a4bc6">Build</text>
+        <rect x="250" y="50" width="110" height="50" rx="8" fill="#fff" stroke="#326ce5"/>
+        <text x="305" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#1a4bc6">Test env</text>
+        <rect x="380" y="50" width="100" height="50" rx="8" fill="#fff" stroke="#326ce5"/>
+        <text x="430" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#1a4bc6">Release</text>
+        <path d="M110 75h20 M230 75h20 M360 75h20 M480 75h30" stroke="#94a3b8" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
+        <rect x="145" y="8" width="70" height="28" rx="6" fill="#dbeafe" stroke="#1e40af"/>
+        <text x="180" y="27" text-anchor="middle" font-size="9" font-weight="700" fill="#1e3a8a">SAST</text>
+        <rect x="220" y="8" width="70" height="28" rx="6" fill="#ffe4e6" stroke="#9f1239"/>
+        <text x="255" y="27" text-anchor="middle" font-size="9" font-weight="700" fill="#9f1239">SCA</text>
+        <rect x="265" y="105" width="80" height="28" rx="6" fill="#fef3c7" stroke="#92400e"/>
+        <text x="305" y="124" text-anchor="middle" font-size="9" font-weight="700" fill="#92400e">DAST</text>
+        <line x1="180" y1="36" x2="180" y2="50" stroke="#1e40af" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <line x1="255" y1="36" x2="255" y2="50" stroke="#9f1239" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <line x1="305" y1="105" x2="305" y2="100" stroke="#92400e" stroke-width="1.5" stroke-dasharray="3 2"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Decision matrix: which to use when</h2>
+    <p>Toggle a focus to emphasize relevant rows (interactive).</p>
+    <div class="btn-row" role="group" aria-label="Highlight focus">
+      <button type="button" class="filter-btn" id="f-all" aria-pressed="true">All</button>
+      <button type="button" class="filter-btn" id="f-sast" aria-pressed="false">SAST focus</button>
+      <button type="button" class="filter-btn" id="f-dast" aria-pressed="false">DAST focus</button>
+      <button type="button" class="filter-btn" id="f-sca" aria-pressed="false">SCA focus</button>
+    </div>
+    <table class="matrix" id="decision-matrix">
+      <thead>
+        <tr><th>Your need</th><th>Prefer</th><th>Rationale</th></tr>
+      </thead>
+      <tbody>
+        <tr data-cat="sast"><td>Stop SQLi/XSS patterns before merge</td><td><span class="tag tag-green">SAST</span></td><td>Points to exact lines; fast in CI</td></tr>
+        <tr data-cat="sca"><td>React to CVEs in dependencies</td><td><span class="tag tag-rose">SCA</span></td><td>Maps versions to advisories</td></tr>
+        <tr data-cat="dast"><td>Validate headers, cookies, WAF in staging</td><td><span class="tag tag-amber">DAST</span></td><td>Observes real HTTP behavior</td></tr>
+        <tr data-cat="sast"><td>Enforce banned APIs company-wide</td><td><span class="tag tag-green">SAST</span></td><td>Custom rules in code</td></tr>
+        <tr data-cat="dast"><td>Find exposed admin routes post-deploy</td><td><span class="tag tag-amber">DAST</span></td><td>Discovery against running app</td></tr>
+        <tr data-cat="sca"><td>License compliance reporting</td><td><span class="tag tag-rose">SCA</span></td><td>BOM + policy engine</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>When to use all three together</h2>
+    <p>Modern DevSecOps programs run <strong>SAST + SCA on every PR</strong> (fast feedback on <em>your</em> code and <em>their</em> code), and <strong>DAST on staging</strong> on a schedule or before release (validate real-world exposure). Penetration tests and threat modeling add human judgment on top—tools narrow the search space.</p>
+    <ul>
+      <li>Correlate IDs: link SAST CWE, SCA CVE, and DAST alert URL in the same ticket system.</li>
+      <li>Share suppressions with expiry and owner so risk is tracked, not hidden.</li>
+    </ul>
+  </div>
+</div>
+<script>
+(function () {
+  var rows = document.querySelectorAll('#decision-matrix tbody tr');
+  var btns = { all: document.getElementById('f-all'), sast: document.getElementById('f-sast'), dast: document.getElementById('f-dast'), sca: document.getElementById('f-sca') };
+  function setMode(mode) {
+    Object.keys(btns).forEach(function (k) {
+      if (btns[k]) btns[k].setAttribute('aria-pressed', k === mode ? 'true' : 'false');
+    });
+    rows.forEach(function (tr) {
+      var cat = tr.getAttribute('data-cat');
+      if (mode === 'all') { tr.style.opacity = '1'; tr.style.display = ''; return; }
+      tr.style.display = '';
+      tr.style.opacity = cat === mode ? '1' : '0.35';
+    });
+  }
+  if (btns.all) btns.all.addEventListener('click', function () { setMode('all'); });
+  if (btns.sast) btns.sast.addEventListener('click', function () { setMode('sast'); });
+  if (btns.dast) btns.dast.addEventListener('click', function () { setMode('dast'); });
+  if (btns.sca) btns.sca.addEventListener('click', function () { setMode('sca'); });
+})();
+</script>
+</body>
+</html>

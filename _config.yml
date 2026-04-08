@@ -1,0 +1,17 @@
+title: DevSecOps Principles & AWS Cloud Security
+description: Interactive learning resource for DevSecOps fundamentals, threat modeling, pipeline security, and AWS cloud security best practices.
+baseurl: "/devsecops-aws-security"
+url: "https://devopscert202.github.io"
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+plugins:
+  - jekyll-seo-tag
+
+exclude:
+  - README.md
+  - .gitignore
+  - .gitattributes

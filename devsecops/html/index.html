@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevSecOps &amp; AWS Cloud Security — Interactive Learning</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --sec-blue: #326ce5;
+      --sec-blue-deep: #1a4bc6;
+      --sec-sky: #e8f0fe;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --surface: #f8fafc;
+      --border: #e2e8f0;
+      --card-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+      color: var(--ink);
+      padding: 20px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    header.hero {
+      margin-bottom: 24px;
+      padding: 22px 26px;
+      border-radius: 14px;
+      background: #ffffff;
+      border: 1px solid rgba(50, 108, 229, 0.12);
+      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+      text-align: center;
+    }
+    header.hero h1 {
+      font-size: 1.55rem;
+      color: var(--sec-blue);
+      margin-bottom: 8px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.94rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .search-bar {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+    }
+    .search-bar input {
+      width: 100%;
+      max-width: 480px;
+      padding: 10px 16px 10px 40px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      color: var(--ink);
+      background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z'/%3E%3C/svg%3E") no-repeat 14px center;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-bar input:focus {
+      border-color: var(--sec-blue);
+      box-shadow: 0 0 0 3px rgba(50, 108, 229, 0.15);
+    }
+    .search-bar input::placeholder { color: #94a3b8; }
+    .no-results {
+      text-align: center;
+      color: var(--muted);
+      padding: 28px 16px;
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .no-results.is-visible { display: block; }
+    .category-block { margin-bottom: 22px; }
+    .category-block.is-empty { display: none; }
+    .category-title {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: var(--sec-blue-deep);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--sec-sky);
+    }
+    .catalog {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+    }
+    table.catalog-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .catalog-table th,
+    .catalog-table td {
+      padding: 12px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+    }
+    .catalog-table th {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      background: rgba(248, 250, 252, 0.95);
+      font-weight: 700;
+    }
+    .catalog-table tbody tr:last-child td { border-bottom: none; }
+    .catalog-table tbody tr.is-hidden { display: none; }
+    .catalog-table a {
+      color: var(--sec-blue);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .catalog-table a:hover { text-decoration: underline; }
+    .file-cell {
+      font-size: 0.82rem;
+      font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
+      color: var(--muted);
+      word-break: break-all;
+    }
+    .file-cell a {
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .file-cell a:hover { color: var(--sec-blue); }
+    @media (max-width: 640px) {
+      body { padding: 12px; }
+      header.hero h1 { font-size: 1.25rem; }
+      .catalog-table thead { display: none; }
+      .catalog-table tbody tr {
+        display: block;
+        border-bottom: 1px solid var(--border);
+        padding: 10px 0;
+      }
+      .catalog-table tbody tr:last-child { border-bottom: none; }
+      .catalog-table td {
+        display: block;
+        border: none;
+        padding: 6px 14px;
+      }
+      .catalog-table td::before {
+        display: block;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+        margin-bottom: 2px;
+      }
+      .catalog-table td:first-child::before { content: "Topic"; }
+      .catalog-table td:last-child::before { content: "File"; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1>DevSecOps &amp; AWS Cloud Security</h1>
+      <p class="subtitle">28 visual explainers across 7 categories — from DevSecOps fundamentals to advanced AWS security.</p>
+      <div class="search-bar">
+        <input type="text" id="catalog-search" placeholder="Search topics..." autocomplete="off" aria-label="Search topics">
+      </div>
+    </header>
+
+    <div id="no-results" class="no-results" role="status" aria-live="polite">No topics match your search.</div>
+
+    <section class="category-block" data-category>
+      <h2 class="category-title">DevSecOps Fundamentals</h2>
+      <div class="catalog">
+        <table class="catalog-table">
+          <thead>
+            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
+          </thead>
+          <tbody>
+            <tr data-topic="What Is DevSecOps?"><td><a href="./devsecops-overview.html">What Is DevSecOps?</a></td><td class="file-cell"><a href="./devsecops-overview.html">devsecops-overview.html</a></td></tr>
+            <tr data-topic="Threat Modeling Fundamentals"><td><a href="./threat-modeling.html">Threat Modeling Fundamentals</a></td><td class="file-cell"><a href="./threat-modeling.html">threat-modeling.html</a></td></tr>
+            <tr data-topic="STRIDE, DREAD & PASTA Frameworks"><td><a href="./stride-dread-pasta.html">STRIDE, DREAD &amp; PASTA Frameworks</a></td><td class="file-cell"><a href="./stride-dread-pasta.html">stride-dread-pasta.html</a></td></tr>
+            <tr data-topic="Securing the DevSecOps Pipeline"><td><a href="./devsecops-pipeline.html">Securing the DevSecOps Pipeline</a></td><td class="file-cell"><a href="./devsecops-pipeline.html">devsecops-pipeline.html</a></td></tr>
+            <tr data-topic="DevSecOps Tools Landscape"><td><a href="./devsecops-tools-landscape.html">DevSecOps Tools Landscape</a></td><td class="file-cell"><a href="./devsecops-tools-landscape.html">devsecops-tools-landscape.html</a></td></tr>
+            <tr data-topic="Debugging in DevSecOps"><td><a href="./debugging-devsecops.html">Debugging in DevSecOps</a></td><td class="file-cell"><a href="./debugging-devsecops.html">debugging-devsecops.html</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="category-block" data-category>
+      <h2 class="category-title">Application Security Testing</h2>
+      <div class="catalog">
+        <table class="catalog-table">
+          <thead>
+            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
+          </thead>
+          <tbody>
+            <tr data-topic="SAST — Static Analysis"><td><a href="./sast-scanning.html">SAST — Static Analysis</a></td><td class="file-cell"><a href="./sast-scanning.html">sast-scanning.html</a></td></tr>
+            <tr data-topic="DAST — Dynamic Analysis"><td><a href="./dast-scanning.html">DAST — Dynamic Analysis</a></td><td class="file-cell"><a href="./dast-scanning.html">dast-scanning.html</a></td></tr>
+            <tr data-topic="SCA — Dependency Analysis"><td><a href="./sca-dependency-check.html">SCA — Dependency Analysis</a></td><td class="file-cell"><a href="./sca-dependency-check.html">sca-dependency-check.html</a></td></tr>
+            <tr data-topic="SAST vs DAST vs SCA"><td><a href="./sast-vs-dast-vs-sca.html">SAST vs DAST vs SCA</a></td><td class="file-cell"><a href="./sast-vs-dast-vs-sca.html">sast-vs-dast-vs-sca.html</a></td></tr>
+            <tr data-topic="Penetration Testing"><td><a href="./penetration-testing.html">Penetration Testing</a></td><td class="file-cell"><a href="./penetration-testing.html">penetration-testing.html</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="category-block" data-category>
+      <h2 class="category-title">Secure Development</h2>
+      <div class="catalog">
+        <table class="catalog-table">
+          <thead>
+            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
+          </thead>
+          <tbody>
+            <tr data-topic="Vulnerability Management"><td><a href="./vulnerability-management.html">Vulnerability Management</a></td><td class="file-cell"><a href="./vulnerability-management.html">vulnerability-management.html</a></td></tr>
+            <tr data-topic="Secure Coding Techniques"><td><a href="./secure-coding.html">Secure Coding Techniques</a></td><td class="file-cell"><a href="./secure-coding.html">secure-coding.html</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="category-block" data-category>
+      <h2 class="category-title">Security Principles</h2>
+      <div class="catalog">
+        <table class="catalog-table">
+          <thead>
+            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
+          </thead>
+          <tbody>
+            <tr data-topic="Security Principles for DevSecOps"><td><a href="./security-principles.html">Security Principles for DevSecOps</a></td><td class="file-cell"><a href="./security-principles.html">security-principles.html</a></td></tr>
+            <tr data-topic="CIA Triad, OWASP Top 10 & CIS"><td><a href="./cia-triad.html">CIA Triad, OWASP Top 10 &amp; CIS</a></td><td class="file-cell"><a href="./cia-triad.html">cia-triad.html</a></td></tr>
+            <tr data-topic="OWASP Top 10 Deep Dive"><td><a href="./owasp-top-10.html">OWASP Top 10 Deep Dive</a></td><td class="file-cell"><a href="./owasp-top-10.html">owasp-top-10.html</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="category-block" data-category>
+      <h2 class="category-title">AWS Cloud Security</h2>
+      <div class="catalog">
+        <table class="catalog-table">
+          <thead>
+            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
+          </thead>
+          <tbody>
+            <tr data-topic="AWS Shared Responsibility Model"><td><a href="./aws-shared-responsibility.html">AWS Shared Responsibility Model</a></td><td class="file-cell"><a href="./aws-shared-responsibility.html">aws-shared-responsibility.html</a></td></tr>
+            <tr data-topic="Security in AWS CodePipeline"><td><a href="./aws-codepipeline-security.html">Security in AWS CodePipeline</a></td><td class="file-cell"><a href="./aws-codepipeline-security.html">aws-codepipeline-security.html</a></td></tr>
+            <tr data-topic="Debugging AWS Cloud Security"><td><a href="./debugging-aws-security.html">Debugging AWS Cloud Security</a></td><td class="file-cell"><a href="./debugging-aws-security.html">debugging-aws-security.html</a></td></tr>
+            <tr data-topic="CIS Controls Framework"><td><a href="./cis-controls.html">CIS Controls Framework</a></td><td class="file-cell"><a href="./cis-controls.html">cis-controls.html</a></td></tr>
+            <tr data-topic="IAM Security Best Practices"><td><a href="./iam-best-practices.html">IAM Security Best Practices</a></td><td class="file-cell"><a href="./iam-best-practices.html">iam-best-practices.html</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="category-block" data-category>
+      <h2 class="category-title">AWS Security Services</h2>
+      <div class="catalog">
+        <table class="catalog-table">
+          <thead>
+            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
+          </thead>
+          <tbody>
+            <tr data-topic="Amazon EKS Security"><td><a href="./amazon-eks-security.html">Amazon EKS Security</a></td><td class="file-cell"><a href="./amazon-eks-security.html">amazon-eks-security.html</a></td></tr>
+            <tr data-topic="AWS Security Hub"><td><a href="./aws-security-hub.html">AWS Security Hub</a></td><td class="file-cell"><a href="./aws-security-hub.html">aws-security-hub.html</a></td></tr>
+            <tr data-topic="Amazon GuardDuty"><td><a href="./aws-guardduty.html">Amazon GuardDuty</a></td><td class="file-cell"><a href="./aws-guardduty.html">aws-guardduty.html</a></td></tr>
+            <tr data-topic="AWS KMS"><td><a href="./aws-kms.html">AWS KMS</a></td><td class="file-cell"><a href="./aws-kms.html">aws-kms.html</a></td></tr>
+            <tr data-topic="Amazon Inspector"><td><a href="./aws-inspector.html">Amazon Inspector</a></td><td class="file-cell"><a href="./aws-inspector.html">aws-inspector.html</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="category-block" data-category>
+      <h2 class="category-title">Data Protection</h2>
+      <div class="catalog">
+        <table class="catalog-table">
+          <thead>
+            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
+          </thead>
+          <tbody>
+            <tr data-topic="Amazon Macie"><td><a href="./aws-macie.html">Amazon Macie</a></td><td class="file-cell"><a href="./aws-macie.html">aws-macie.html</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  <script>
+    (function () {
+      var input = document.getElementById('catalog-search');
+      var noResults = document.getElementById('no-results');
+      var categories = document.querySelectorAll('.category-block[data-category]');
+
+      function normalize(s) {
+        return (s || '').toLowerCase().trim();
+      }
+
+      function applyFilter() {
+        var q = normalize(input.value);
+        var anyVisible = false;
+
+        categories.forEach(function (block) {
+          var visibleInBlock = 0;
+          var rows = block.querySelectorAll('tbody tr[data-topic]');
+          rows.forEach(function (tr) {
+            var topic = normalize(tr.getAttribute('data-topic'));
+            var match = !q || topic.indexOf(q) !== -1;
+            tr.classList.toggle('is-hidden', !match);
+            if (match) {
+              visibleInBlock++;
+              anyVisible = true;
+            }
+          });
+          block.classList.toggle('is-empty', visibleInBlock === 0);
+        });
+
+        noResults.classList.toggle('is-visible', !anyVisible);
+      }
+
+      input.addEventListener('input', applyFilter);
+      applyFilter();
+    })();
+  </script>
+</body>
+</html>

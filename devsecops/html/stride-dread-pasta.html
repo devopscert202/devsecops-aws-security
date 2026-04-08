@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STRIDE, DREAD &amp; PASTA Frameworks — DevSecOps Interactive Learning</title>
+  <style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+@media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+.tab-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.tab-btn { border: 2px solid var(--card-border); background: #fff; color: var(--sec-blue); padding: 10px 20px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 1rem; }
+.tab-btn:hover { border-color: var(--sec-blue); }
+.tab-btn.active { background: var(--sec-blue); color: #fff; border-color: var(--sec-blue); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.stride-item { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid #e2e8f0; }
+.stride-icon { font-size: 1.8rem; line-height: 1; min-width: 2.2rem; text-align: center; }
+.dread-row { display: grid; grid-template-columns: 140px 1fr 52px; gap: 12px; align-items: center; margin: 10px 0; }
+.dread-row label { font-weight: 600; color: var(--ink); }
+.dread-row input[type="range"] { width: 100%; accent-color: var(--sec-blue); }
+.dread-val { font-weight: 800; color: var(--sec-blue-deep); text-align: right; }
+.dread-total { margin-top: 16px; padding: 16px; background: var(--sec-sky); border-radius: 12px; font-size: 1.1rem; }
+.pasta-pipeline { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+.pasta-stage { display: flex; align-items: center; gap: 12px; }
+.pasta-num { width: 36px; height: 36px; border-radius: 50%; background: var(--sec-blue); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; }
+.pasta-body { flex: 1; background: #fff; border: 1px solid var(--card-border); border-radius: 10px; padding: 10px 14px; }
+.pasta-connector { width: 2px; height: 12px; background: var(--sec-blue); margin-left: 17px; opacity: 0.5; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header class="hero">
+    <a href="index.html" class="home-link">&#8962; Home</a>
+    <h1>STRIDE, DREAD &amp; PASTA Frameworks</h1>
+    <p class="subtitle">Three popular ways to structure threat identification, scoring, and risk process.</p>
+  </header>
+
+  <div class="card">
+    <div class="tab-row" role="tablist" aria-label="Framework tabs">
+      <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab="stride" id="tab-stride">STRIDE</button>
+      <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="dread" id="tab-dread">DREAD</button>
+      <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="pasta" id="tab-pasta">PASTA</button>
+    </div>
+
+    <div id="panel-stride" class="tab-panel active" role="tabpanel">
+      <h2 style="margin-top:0;">STRIDE — six threat categories</h2>
+      <p>Originally from Microsoft, STRIDE labels threats so you do not miss major classes. Below: mnemonic “icon” and an <strong>e-commerce</strong> example for each.</p>
+      <div class="stride-item"><span class="stride-icon" aria-hidden="true">&#128273;</span><div><strong>Spoofing</strong> — Attacker pretends to be someone else. <em>Shop:</em> stolen session cookie used to place orders as the victim.</div></div>
+      <div class="stride-item"><span class="stride-icon" aria-hidden="true">&#128737;</span><div><strong>Tampering</strong> — Unauthorized modification of data or code. <em>Shop:</em> price or cart totals altered in transit if integrity is weak.</div></div>
+      <div class="stride-item"><span class="stride-icon" aria-hidden="true">&#128196;</span><div><strong>Repudiation</strong> — User denies an action; no proof. <em>Shop:</em> dispute over payment without tamper-evident audit logs.</div></div>
+      <div class="stride-item"><span class="stride-icon" aria-hidden="true">&#128274;</span><div><strong>Information disclosure</strong> — Exposure of secrets or PII. <em>Shop:</em> API returns another customer’s order details (IDOR).</div></div>
+      <div class="stride-item"><span class="stride-icon" aria-hidden="true">&#9889;</span><div><strong>Denial of service</strong> — Availability attacks. <em>Shop:</em> checkout flood or inventory reservation abuse.</div></div>
+      <div class="stride-item"><span class="stride-icon" aria-hidden="true">&#8593;</span><div><strong>Elevation of privilege</strong> — Gaining unauthorized capabilities. <em>Shop:</em> customer API token reused to access admin refund endpoints.</div></div>
+    </div>
+
+    <div id="panel-dread" class="tab-panel" role="tabpanel" hidden>
+      <h2 style="margin-top:0;">DREAD — risk scoring (1–10 per dimension)</h2>
+      <p><strong>D</strong>amage, <strong>R</strong>eproducibility, <strong>E</strong>xploitability, <strong>A</strong>ffected users, <strong>D</strong>iscoverability. Move the sliders to see a sample aggregate (average × 10 for a simple “score out of 100”).</p>
+      <div class="dread-row"><label for="d1">Damage</label><input type="range" id="d1" min="1" max="10" value="7"><span class="dread-val" id="v1">7</span></div>
+      <div class="dread-row"><label for="d2">Reproducibility</label><input type="range" id="d2" min="1" max="10" value="8"><span class="dread-val" id="v2">8</span></div>
+      <div class="dread-row"><label for="d3">Exploitability</label><input type="range" id="d3" min="1" max="10" value="6"><span class="dread-val" id="v3">6</span></div>
+      <div class="dread-row"><label for="d4">Affected users</label><input type="range" id="d4" min="1" max="10" value="5"><span class="dread-val" id="v4">5</span></div>
+      <div class="dread-row"><label for="d5">Discoverability</label><input type="range" id="d5" min="1" max="10" value="4"><span class="dread-val" id="v5">4</span></div>
+      <div class="dread-total" id="dreadTotal">Average rating: <strong id="dreadAvg">6.0</strong> / 10 → illustrative score: <strong id="dreadScore">60</strong> / 100</div>
+      <p style="color:var(--muted);font-size:0.9rem;">Organizations often customize weights or replace DREAD with CVSS—use this tab to teach the <em>idea</em> of multidimensional risk, not a single universal formula.</p>
+    </div>
+
+    <div id="panel-pasta" class="tab-panel" role="tabpanel" hidden>
+      <h2 style="margin-top:0;">PASTA — seven-stage risk-centric process</h2>
+      <p>Process for Attack Simulation and Threat Analysis: aligns technical threats with business impact and testing.</p>
+      <div class="pasta-pipeline">
+        <div class="pasta-stage"><span class="pasta-num">1</span><div class="pasta-body"><strong>Define objectives</strong> — Business context, compliance drivers, crown jewels.</div></div>
+        <div class="pasta-connector"></div>
+        <div class="pasta-stage"><span class="pasta-num">2</span><div class="pasta-body"><strong>Define technical scope</strong> — Systems, data flows, dependencies.</div></div>
+        <div class="pasta-connector"></div>
+        <div class="pasta-stage"><span class="pasta-num">3</span><div class="pasta-body"><strong>Application decomposition</strong> — Components, trust zones, entry points.</div></div>
+        <div class="pasta-connector"></div>
+        <div class="pasta-stage"><span class="pasta-num">4</span><div class="pasta-body"><strong>Threat analysis</strong> — Threat intelligence, likelihood from real-world actors.</div></div>
+        <div class="pasta-connector"></div>
+        <div class="pasta-stage"><span class="pasta-num">5</span><div class="pasta-body"><strong>Weakness &amp; vulnerability analysis</strong> — Maps threats to flaws and CVEs.</div></div>
+        <div class="pasta-connector"></div>
+        <div class="pasta-stage"><span class="pasta-num">6</span><div class="pasta-body"><strong>Attack modeling</strong> — Attack trees, kill chains, abuse cases.</div></div>
+        <div class="pasta-connector"></div>
+        <div class="pasta-stage"><span class="pasta-num">7</span><div class="pasta-body"><strong>Risk &amp; impact analysis</strong> — Residual risk, controls, acceptance, roadmap.</div></div>
+      </div>
+      <p style="color:var(--muted);font-size:0.95rem;margin:20px 0 8px;"><strong>Pipeline visualization</strong> — seven stages left-to-right (scroll on small screens).</p>
+      <div style="overflow-x:auto;padding:8px 0;">
+        <svg width="900" height="120" viewBox="0 0 900 120" role="img" aria-label="PASTA seven-stage horizontal pipeline">
+          <title>PASTA stages 1 through 7</title>
+          <defs>
+            <linearGradient id="pastaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#326ce5;stop-opacity:0.9"/>
+              <stop offset="100%" style="stop-color:#1a4bc6;stop-opacity:0.95"/>
+            </linearGradient>
+            <marker id="pastaArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/></marker>
+          </defs>
+          <g font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#0f172a">
+            <rect x="8" y="38" width="100" height="44" rx="8" fill="#e8f0fe" stroke="#326ce5" stroke-width="1.5"/>
+            <text x="58" y="58" text-anchor="middle" font-weight="700" fill="#1a4bc6">1 Objectives</text>
+            <text x="58" y="72" text-anchor="middle">Business context</text>
+            <path d="M108 60 H118" stroke="#64748b" stroke-width="2" marker-end="url(#pastaArrow)"/>
+            <rect x="120" y="38" width="100" height="44" rx="8" fill="#e8f0fe" stroke="#326ce5" stroke-width="1.5"/>
+            <text x="170" y="58" text-anchor="middle" font-weight="700" fill="#1a4bc6">2 Scope</text>
+            <text x="170" y="72" text-anchor="middle">Technical boundary</text>
+            <path d="M220 60 H230" stroke="#64748b" stroke-width="2" marker-end="url(#pastaArrow)"/>
+            <rect x="232" y="38" width="100" height="44" rx="8" fill="#e8f0fe" stroke="#326ce5" stroke-width="1.5"/>
+            <text x="282" y="58" text-anchor="middle" font-weight="700" fill="#1a4bc6">3 Decompose</text>
+            <text x="282" y="72" text-anchor="middle">Trust zones</text>
+            <path d="M332 60 H342" stroke="#64748b" stroke-width="2" marker-end="url(#pastaArrow)"/>
+            <rect x="344" y="38" width="100" height="44" rx="8" fill="#e8f0fe" stroke="#326ce5" stroke-width="1.5"/>
+            <text x="394" y="58" text-anchor="middle" font-weight="700" fill="#1a4bc6">4 Threats</text>
+            <text x="394" y="72" text-anchor="middle">Intel &amp; actors</text>
+            <path d="M444 60 H454" stroke="#64748b" stroke-width="2" marker-end="url(#pastaArrow)"/>
+            <rect x="456" y="38" width="100" height="44" rx="8" fill="#e8f0fe" stroke="#326ce5" stroke-width="1.5"/>
+            <text x="506" y="58" text-anchor="middle" font-weight="700" fill="#1a4bc6">5 Weakness</text>
+            <text x="506" y="72" text-anchor="middle">CVE mapping</text>
+            <path d="M556 60 H566" stroke="#64748b" stroke-width="2" marker-end="url(#pastaArrow)"/>
+            <rect x="568" y="38" width="100" height="44" rx="8" fill="#e8f0fe" stroke="#326ce5" stroke-width="1.5"/>
+            <text x="618" y="58" text-anchor="middle" font-weight="700" fill="#1a4bc6">6 Attack model</text>
+            <text x="618" y="72" text-anchor="middle">Trees / chains</text>
+            <path d="M668 60 H678" stroke="#64748b" stroke-width="2" marker-end="url(#pastaArrow)"/>
+            <rect x="680" y="38" width="100" height="44" rx="8" fill="url(#pastaGrad)" stroke="#1a4bc6" stroke-width="1.5"/>
+            <text x="730" y="58" text-anchor="middle" font-weight="700" fill="#ffffff">7 Risk</text>
+            <text x="730" y="72" text-anchor="middle" fill="#e8f0fe">Impact &amp; roadmap</text>
+            <path d="M780 60 H792" stroke="#64748b" stroke-width="2" marker-end="url(#pastaArrow)"/>
+            <circle cx="812" cy="60" r="18" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+            <text x="812" y="64" text-anchor="middle" font-weight="700" font-size="10" fill="#166534">OK</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Comparison</h2>
+    <table>
+      <thead><tr><th>Framework</th><th>Primary use</th><th>Output</th><th>Good fit when</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-green">STRIDE</span></td><td>Label threat types</td><td>Checklist of categories</td><td>Design reviews, DFDs, training devs</td></tr>
+        <tr><td><span class="tag tag-amber">DREAD</span></td><td>Prioritize findings</td><td>Numeric / relative ranking</td><td>Comparing similar issues; discussion starter</td></tr>
+        <tr><td><span class="tag tag-rose">PASTA</span></td><td>End-to-end risk process</td><td>Business-aligned risk cases</td><td>Mature programs, pen test integration</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+(function(){
+  var tabs = document.querySelectorAll('.tab-btn');
+  var panels = { stride: document.getElementById('panel-stride'), dread: document.getElementById('panel-dread'), pasta: document.getElementById('panel-pasta') };
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      var name = t.getAttribute('data-tab');
+      tabs.forEach(function(x){ x.classList.remove('active'); x.setAttribute('aria-selected','false'); });
+      t.classList.add('active'); t.setAttribute('aria-selected','true');
+      Object.keys(panels).forEach(function(k){
+        var p = panels[k]; var on = (k === name);
+        p.classList.toggle('active', on);
+        p.hidden = !on;
+      });
+    });
+  });
+  function updDread(){
+    var ids = ['d1','d2','d3','d4','d5'];
+    var sum = 0;
+    ids.forEach(function(id, idx){
+      var el = document.getElementById(id);
+      var v = parseInt(el.value,10);
+      document.getElementById('v'+(idx+1)).textContent = String(v);
+      sum += v;
+    });
+    var avg = sum / 5;
+    document.getElementById('dreadAvg').textContent = avg.toFixed(1);
+    document.getElementById('dreadScore').textContent = String(Math.round(avg * 10));
+  }
+  ['d1','d2','d3','d4','d5'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', updDread);
+  });
+  updDread();
+})();
+</script>
+</body>
+</html>

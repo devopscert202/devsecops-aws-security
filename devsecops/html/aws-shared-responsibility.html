@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Shared Responsibility Model — DevSecOps Interactive Learning</title>
+<style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+.split-bar { display: grid; grid-template-columns: 1fr 1fr; border-radius: 14px; overflow: hidden; margin: 20px 0; min-height: 160px; }
+.split-aws { background: linear-gradient(135deg,#1a4bc6,#326ce5); color: #fff; padding: 24px; }
+.split-cust { background: linear-gradient(135deg,#15803d,#16a34a); color: #fff; padding: 24px; }
+.split-bar h3 { margin: 0 0 10px; font-size: 1.1rem; }
+.split-bar ul { margin: 0; padding-left: 18px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+.tab-btn { padding: 10px 16px; border-radius: 999px; border: 1px solid var(--card-border); background: var(--surface); cursor: pointer; font-weight: 600; color: var(--sec-blue-deep); }
+.tab-btn[aria-selected="true"] { background: var(--sec-blue); color: #fff; border-color: var(--sec-blue); }
+.tab-panel { display: none; padding: 16px; border-radius: 12px; border: 1px solid var(--card-border); background: var(--surface); }
+.tab-panel.active { display: block; }
+.benefits { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 14px; }
+.ben { padding: 14px; border-radius: 12px; background: var(--sec-sky); border: 1px solid var(--card-border); }
+
+</style>
+</head>
+<body>
+<div class="container">
+<header class="hero">
+<a href="index.html" class="home-link">&#8962; Home</a>
+<h1>AWS Shared Responsibility Model</h1>
+<p class="subtitle">Know what AWS secures vs what you must secure for each service pattern.</p>
+</header>
+<div class="card"><h2>Responsibility split</h2>
+<p style="color:var(--muted);margin-top:0;">AWS operates the cloud; customers configure secure use of services in the cloud.</p>
+<div class="split-bar"><div class="split-aws"><h3>AWS (blue)</h3><ul><li>Physical security of data centers</li><li>Hypervisor and infrastructure patching (for managed areas)</li><li>Global backbone and edge locations</li></ul></div><div class="split-cust"><h3>Customer (green)</h3><ul><li>Data classification &amp; encryption choices</li><li>IAM, network rules, OS &amp; app patching (where applicable)</li><li>Logging, monitoring, incident response runbooks</li></ul></div></div></div>
+<div class="card"><h2>Service-specific examples</h2>
+<p style="color:var(--muted);margin-top:0;">Select a service tab. Lines are illustrative—always read the current AWS documentation.</p>
+<div class="tabs" role="tablist">
+<button type="button" class="tab-btn" role="tab" aria-selected="true" data-tab="ec2">EC2</button>
+<button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="s3">S3</button>
+<button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="rds">RDS</button>
+<button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="lambda">Lambda</button></div>
+<div id="panel-ec2" class="tab-panel active" role="tabpanel"><table><tr><th>AWS</th><th>Customer</th></tr>
+<tr><td>Host hardware, AZ resilience</td><td>Guest OS hardening, security groups, key pairs/IAM</td></tr>
+<tr><td>EBS infrastructure</td><td>Encryption selection, snapshot policies</td></tr></table></div>
+<div id="panel-s3" class="tab-panel" role="tabpanel"><table><tr><th>AWS</th><th>Customer</th></tr>
+<tr><td>Durability/availability of object store</td><td>Bucket policies, ACLs/block public access, KMS keys</td></tr>
+<tr><td>Managed encryption at rest options</td><td>Who can decrypt; lifecycle &amp; logging to trusted account</td></tr></table></div>
+<div id="panel-rds" class="tab-panel" role="tabpanel"><table><tr><th>AWS</th><th>Customer</th></tr>
+<tr><td>Managed DB engine maintenance windows</td><td>Subnet groups, parameter groups, master cred rotation strategy</td></tr>
+<tr><td>Automated backups infrastructure</td><td>Access to snapshots; app-level encryption decisions</td></tr></table></div>
+<div id="panel-lambda" class="tab-panel" role="tabpanel"><table><tr><th>AWS</th><th>Customer</th></tr>
+<tr><td>Runtime execution environment</td><td>Function code, dependencies, env secrets, IAM role</td></tr>
+<tr><td>Platform patching</td><td>VPC config, concurrency, dead-letter &amp; observability</td></tr></table></div></div>
+<div class="card"><h2>Benefits of the model</h2>
+<div class="benefits"><div class="ben"><strong>Clarity</strong> — scope pen tests and audits correctly.</div>
+<div class="ben"><strong>Scale</strong> — inherit AWS physical and network controls.</div>
+<div class="ben"><strong>Focus</strong> — invest engineering in app/data controls you own.</div></div></div>
+</div>
+<script>
+(function(){
+  var tabs = document.querySelectorAll(".tab-btn");
+  tabs.forEach(function(t){
+    t.addEventListener("click", function(){
+      var id = t.getAttribute("data-tab");
+      tabs.forEach(function(x){ x.setAttribute("aria-selected", x===t ? "true" : "false"); });
+      document.querySelectorAll(".tab-panel").forEach(function(p){
+        p.classList.toggle("active", p.id === "panel-"+id);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

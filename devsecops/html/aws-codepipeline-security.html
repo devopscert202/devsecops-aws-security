@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security in AWS CodePipeline — DevSecOps Interactive Learning</title>
+<style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+
+.pipe { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; justify-content: center; margin: 20px 0; }
+.pipe .stage { flex: 1 1 120px; min-width: 100px; background: var(--sec-sky); border: 2px solid var(--sec-blue); border-radius: 10px; padding: 12px 10px; text-align: center; font-weight: 700; color: var(--sec-blue-deep); position: relative; }
+.pipe .stage::after { content: "→"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 400; }
+.pipe .stage:last-child::after { content: ""; }
+.touch { font-size: 0.85rem; color: var(--rose); font-weight: 600; display: block; margin-top: 6px; }
+.kms-flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin: 16px 0; }
+.kms-box { padding: 12px 16px; border-radius: 10px; background: #1e293b; color: #93c5fd; font-family: monospace; font-size: 0.85rem; }
+.kms-arrow { color: var(--muted); }
+.badge-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.badge { padding: 8px 14px; border-radius: 8px; background: var(--surface); border: 1px dashed var(--sec-blue); font-size: 0.85rem; font-weight: 600; color: var(--sec-blue-deep); }
+
+</style>
+</head>
+<body>
+<div class="container">
+<header class="hero">
+<a href="index.html" class="home-link">&#8962; Home</a>
+<h1>Security in AWS CodePipeline</h1>
+<p class="subtitle">Embed encryption, least-privilege roles, and auditability into every stage.</p>
+</header>
+<div class="card"><h2>Pipeline architecture &amp; security touchpoints</h2>
+<div class="pipe"><div class="stage">Source<span class="touch">Webhook secrets, branch policies</span></div><div class="stage">Build<span class="touch">SAST, deps scan</span></div><div class="stage">Test<span class="touch">DAST, IAM least priv</span></div><div class="stage">Deploy<span class="touch">Artifact signing, approvals</span></div><div class="stage">Prod<span class="touch">Drift detection</span></div></div>
+<p style="color:var(--muted);">Each stage should use its own IAM role (least privilege) and emit audit events.</p></div>
+<div class="card"><h2>KMS encryption flow (conceptual)</h2>
+<p>Artifacts, S3 buckets, and SNS notifications can use customer-managed keys (CMKs) with key policies + IAM.</p>
+<div class="kms-flow"><span class="kms-box">CodePipeline</span><span class="kms-arrow">→</span><span class="kms-box">kms:Decrypt / GenerateDataKey</span><span class="kms-arrow">→</span><span class="kms-box">Encrypted artifact in S3</span></div></div>
+<div class="card"><h2>IAM per stage (illustrative)</h2>
+<table><tr><th>Stage</th><th>Role intent</th><th>Example actions (scoped)</th></tr>
+<tr><td>Source</td><td>Read repo only</td><td><code>codecommit:GitPull</code> or GitHub OIDC subject</td></tr>
+<tr><td>Build</td><td>Build project</td><td><code>logs:*</code> to project log group; <code>s3:GetObject</code> on input prefix</td></tr>
+<tr><td>Deploy</td><td>Target env</td><td><code>cloudformation:*</code> or <code>codedeploy:*</code> on approved ARNs</td></tr>
+</table></div>
+<div class="grid"><div class="card"><h2>CloudTrail audit integration</h2>
+<ul><li>Log data events on pipeline buckets if required by policy</li><li>Alert on <code>ConsoleLogin</code> + pipeline <code>StartPipelineExecution</code> anomalies</li><li>Centralize to organization trail + SIEM</li></ul></div>
+<div class="card"><h2>Compliance badges (examples)</h2>
+<div class="badge-row"><span class="badge">PCI-DSS segmentation</span><span class="badge">SOC 2 change mgmt</span><span class="badge">ISO 27001 logging</span></div>
+<p style="color:var(--muted);margin-bottom:0;">Map pipeline controls to frameworks your assessors expect.</p></div></div>
+<div class="card"><h2>Use case: banking CI/CD</h2>
+<ul><li>Separate pipelines per environment with manual approval gates for production</li><li>Immutable artifacts; promote the same digest through stages</li><li>Mandatory code review + SAST thresholds; break-glass with ticket ID</li><li>Secrets from Secrets Manager / SSM Parameter Store; no long-lived keys in buildspec</li></ul></div>
+</div>
+
+</body>
+</html>

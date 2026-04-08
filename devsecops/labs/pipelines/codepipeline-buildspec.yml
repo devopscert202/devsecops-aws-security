@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo "Starting Maven build"
+      - mvn -B package --file pom.xml
+      - echo "Build completed successfully"
+
+artifacts:
+  files:
+    - target/*.war
+  discard-paths: "yes"
+  # Replace with your KMS key ARN
+  # encryption-key: "arn:aws:kms:us-east-1:ACCOUNT_ID:key/KEY_ID"

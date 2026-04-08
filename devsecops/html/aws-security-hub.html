@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Security Hub — DevSecOps Interactive Learning</title>
+<style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+
+.hub-arch { margin: 16px 0; }
+.std-table td:nth-child(3) { font-variant-numeric: tabular-nums; }
+.eco { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 16px 0; }
+.eco-node { padding: 12px 16px; border-radius: 12px; background: var(--sec-sky); border: 1px solid var(--card-border); font-weight: 600; color: var(--sec-blue-deep); cursor: help; }
+.lifecycle { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; margin: 18px 0; }
+.lifecycle .step { padding: 10px 14px; background: #1e293b; color: #e2e8f0; border-radius: 8px; font-size: 0.88rem; }
+.ben-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 12px; }
+.ben { padding: 14px; border-radius: 12px; border: 1px solid var(--card-border); background: var(--card-bg); }
+
+</style>
+</head>
+<body>
+<div class="container">
+<header class="hero">
+<a href="index.html" class="home-link">&#8962; Home</a>
+<h1>AWS Security Hub</h1>
+<p class="subtitle">Aggregate findings, map to standards, and drive response at scale.</p>
+</header>
+<div class="card"><h2>Security Hub architecture</h2>
+<svg class="hub-arch" viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" aria-label="Security Hub aggregation">
+<rect x="30" y="60" width="120" height="70" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/><text x="90" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d">Findings</text>
+<rect x="190" y="60" width="120" height="70" rx="10" fill="#e8f0fe" stroke="#326ce5" stroke-width="2"/><text x="250" y="95" text-anchor="middle" font-size="12" font-weight="700" fill="#1a4bc6">Security Hub</text>
+<text x="250" y="112" text-anchor="middle" font-size="10" fill="#64748b">normalize · dedupe</text>
+<rect x="350" y="60" width="120" height="70" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/><text x="410" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="#b45309">Standards</text>
+<path d="M150 95 L190 95" stroke="#326ce5" stroke-width="2"/><path d="M310 95 L350 95" stroke="#326ce5" stroke-width="2"/>
+<rect x="170" y="150" width="220" height="36" rx="8" fill="#f1f5f9" stroke="#94a3b8"/><text x="280" y="173" text-anchor="middle" font-size="11" fill="#475569">EventBridge → Ticketing / SOAR / Dashboards</text>
+</svg></div>
+<div class="card"><h2>Supported standards (sample scores)</h2>
+<p style="color:var(--muted);margin-top:0;">Illustrative percentages for UI concept—enable frameworks your org requires.</p>
+<table class="std-table"><tr><th>Standard</th><th>Scope</th><th>Example score</th></tr>
+<tr><td>AWS Foundational</td><td>AWS best practices</td><td>82%</td></tr>
+<tr><td>CIS AWS Foundations</td><td>Account hygiene</td><td>76%</td></tr>
+<tr><td>PCI DSS</td><td>Card data env alignment</td><td>71%</td></tr>
+</table></div>
+<div class="card"><h2>Integration ecosystem</h2>
+<p style="color:var(--muted);margin-top:0;">Hover nodes for a short description.</p>
+<div class="eco">
+<span class="eco-node" title="Threat detection findings">GuardDuty</span>
+<span class="eco-node" title="Vulnerability findings">Inspector</span>
+<span class="eco-node" title="Data discovery">Macie</span>
+<span class="eco-node" title="Firewall Manager, Config rules">Config / Firewall Mgr</span>
+<span class="eco-node" title="Partner products">Third-party</span>
+</div></div>
+<div class="card"><h2>Findings lifecycle</h2>
+<div class="lifecycle"><span class="step">Ingest</span><span>→</span><span class="step">Normalize</span><span>→</span><span class="step">Enrich</span><span>→</span><span class="step">Route</span><span>→</span><span class="step">Remediate</span><span>→</span><span class="step">Verify</span></div>
+<p style="color:var(--muted);text-align:center;margin:0;">Workflow engines close the loop with automation and owners per account.</p></div>
+<div class="card"><h2>Benefits</h2>
+<div class="ben-grid"><div class="ben"><strong>Single pane</strong> — fewer swivel-chair consoles.</div><div class="ben"><strong>Compliance tracking</strong> — trend scores over time.</div><div class="ben"><strong>Faster MTTR</strong> — routing + runbooks from one schema.</div></div></div>
+</div>
+
+</body>
+</html>

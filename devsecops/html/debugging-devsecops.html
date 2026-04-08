@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debugging in DevSecOps — DevSecOps Interactive Learning</title>
+<style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+.flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin: 16px 0; }
+.flow span { background: var(--sec-sky); padding: 8px 14px; border-radius: 999px; font-weight: 600; color: var(--sec-blue-deep); }
+.flow em { font-style: normal; color: var(--muted); }
+.step-card { border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; margin-bottom: 12px; background: var(--surface); }
+.step-card h3 { margin: 0 0 8px; font-size: 1rem; color: var(--sec-blue-deep); }
+#sast-steps { margin-top: 12px; min-height: 72px; padding: 12px; border-radius: 10px; background: #1e293b; color: #e2e8f0; font-family: 'Cascadia Code', monospace; font-size: 0.88rem; }
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 12px; }
+.tool-pill { padding: 14px; border-radius: 12px; border: 1px dashed var(--card-border); text-align: center; cursor: default; }
+.tool-pill strong { display: block; color: var(--sec-blue); margin-bottom: 4px; }
+.btn { display: inline-block; margin-top: 10px; padding: 10px 18px; border: none; border-radius: 10px; background: var(--sec-blue); color: #fff; font-weight: 700; cursor: pointer; font-size: 0.95rem; }
+.btn:hover { background: var(--sec-blue-deep); }
+
+</style>
+</head>
+<body>
+<div class="container">
+<header class="hero">
+<a href="index.html" class="home-link">&#8962; Home</a>
+<h1>Debugging in DevSecOps</h1>
+<p class="subtitle">Trace failures across code, pipelines, and security signals—without turning logs into new risks.</p>
+</header>
+<div class="card"><h2>What is debugging in DevSecOps?</h2>
+<p>It is structured troubleshooting that spans <strong>application defects</strong>, <strong>build and deploy automation</strong>, and <strong>security controls</strong> (SAST, DAST, policy-as-code). You reproduce the failure, narrow the blast radius, fix root cause, and add guardrails so the class of issue does not return silently.</p>
+<div class="flow"><span>Commit</span><em>→</em><span>CI build</span><em>→</em><span>Security gates</span><em>→</em><span>Artifact</span><em>→</em><span>Deploy</span><em>→</em><span>Runtime</span></div>
+<p style="color:var(--muted);margin:0;">Security debugging often starts at a red pipeline stage or an alert, not only at a stack trace.</p></div>
+<div class="grid"><div class="card"><h2>Why it matters</h2>
+<ul><li>Reduces mean time to remediate (MTTR) for exploitable issues</li><li>Prevents “green build, bad security” by correlating tool output with code paths</li><li>Builds shared vocabulary between devs, ops, and security</li><li>Improves feedback loops so the same defect is caught earlier next time</li></ul></div>
+<div class="card"><h2>Strategies</h2>
+<table><tr><th>Strategy</th><th>Use when</th></tr>
+<tr><td>Log analysis</td><td>Pipeline stages, app servers, auth service—timestamp correlation</td></tr>
+<tr><td>Breakpoint debugging</td><td>Reproducible logic bugs in IDEs locally or in ephemeral envs</td></tr>
+<tr><td>Distributed trace analysis</td><td>Microservices; follow trace IDs across spans</td></tr>
+<tr><td>Security event correlation</td><td>SIEM + IAM + WAF + scanner findings tied to a release</td></tr>
+</table></div></div>
+<div class="card"><h2>Tools (representative)</h2>
+<div class="tool-grid">
+<div class="tool-pill"><strong>IDE debuggers</strong>Breakpoints, watches, conditional breaks</div>
+<div class="tool-pill"><strong>CI/CD logs</strong>Stage output, SARIF upload, policy violations</div>
+<div class="tool-pill"><strong>Log aggregators</strong>Search, structured fields, saved queries</div>
+<div class="tool-pill"><strong>SIEM</strong>Rule hits, user-entity behavior, ticketing</div>
+</div></div>
+<div class="card"><h2>Use case: failed SAST gate</h2>
+<p style="color:var(--muted);margin-top:0;">Click through a typical triage sequence. Each step updates the panel below.</p>
+<div id="sast-step-wrap"></div>
+<pre id="sast-steps">Click “Start triage” to simulate steps.</pre>
+<button type="button" class="btn" id="sast-next">Start triage</button>
+<button type="button" class="btn" id="sast-reset" style="background:var(--muted);margin-left:8px;">Reset</button></div>
+</div>
+<script>
+(function(){
+  var steps = [
+    "1. Open failed job → note rule ID, file:line, and CWE/Sonar category.",
+    "2. Reproduce locally: same branch, same scanner version if possible.",
+    "3. Classify: true positive → fix; false positive → document waiver with expiry + owner.",
+    "4. Add regression test or suppression test where framework allows.",
+    "5. Re-run pipeline; verify SARIF count delta and merge policy."
+  ];
+  var i = -1;
+  var pre = document.getElementById("sast-steps");
+  var wrap = document.getElementById("sast-step-wrap");
+  function renderCards(){
+    wrap.textContent = "";
+    for (var j = 0; j < steps.length; j++) {
+      var d = document.createElement("div");
+      d.className = "step-card";
+      var h = document.createElement("h3");
+      h.textContent = "Step " + (j+1);
+      var p = document.createElement("p");
+      p.style.margin = "0";
+      p.style.color = "var(--ink)";
+      p.textContent = steps[j].replace(/^\d+\.\s*/, "");
+      d.appendChild(h); d.appendChild(p);
+      if (j <= i) d.style.borderColor = "var(--sec-blue)";
+      if (j === i) d.style.background = "var(--sec-sky)";
+      wrap.appendChild(d);
+    }
+  }
+  document.getElementById("sast-next").addEventListener("click", function(){
+    i = (i + 1) % steps.length;
+    pre.textContent = steps[i];
+    renderCards();
+  });
+  document.getElementById("sast-reset").addEventListener("click", function(){
+    i = -1;
+    pre.textContent = "Click Start triage to simulate steps.";
+    wrap.textContent = "";
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Application Security Testing (DAST) — DevSecOps Interactive Learning</title>
+  <style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+@media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+.zap-box { background: var(--sec-sky); border-radius: var(--radius); padding: 18px; margin: 12px 0; border: 1px solid var(--card-border); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header class="hero">
+    <a href="index.html" class="home-link">&#8962; Home</a>
+    <h1>Dynamic Application Security Testing (DAST)</h1>
+    <p class="subtitle">Exercise the running application like an external attacker—find what scanners in the repo cannot see.</p>
+  </header>
+
+  <div class="card">
+    <h2>How DAST works</h2>
+    <p>DAST sends real HTTP(S) requests to a <strong>deployed</strong> environment (often staging). It crawls or uses OpenAPI specs to discover routes, injects payloads, and observes responses, status codes, timing, and DOM changes. It excels at misconfigurations, exposed debug endpoints, auth/session flaws visible only at runtime, and some classes of injection when the app is live.</p>
+  </div>
+
+  <div class="card">
+    <h2>OWASP ZAP deep dive</h2>
+    <div class="zap-box">
+      <p style="margin-top:0;"><strong>OWASP ZAP</strong> (OWASP Zed Attack Proxy) is a free, community DAST proxy and scanner.</p>
+      <ul>
+        <li><strong>Spider / AJAX spider:</strong> discover links and client-side routes.</li>
+        <li><strong>Active scan:</strong> attack mode—use only on authorized targets.</li>
+        <li><strong>Contexts &amp; users:</strong> scripted login flows for authenticated scans.</li>
+        <li><strong>Automation framework:</strong> YAML-driven jobs for CI (baseline vs full).</li>
+        <li><strong>Add-ons:</strong> GraphQL, SOAP, JWT, custom scripts.</li>
+      </ul>
+      <p style="margin-bottom:0;"><span class="tag tag-rose">Warning</span> Authenticated scans can destroy data—use disposable data sets and read-only test tenants.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>When to use DAST</h2>
+    <ul>
+      <li>After deploy to a <strong>staging</strong> stack that mirrors production config.</li>
+      <li>On a schedule (nightly/weekly) plus before major releases.</li>
+      <li>When API surface is defined by OpenAPI—speeds up coverage.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Features to look for</h2>
+    <table>
+      <thead><tr><th>Capability</th><th>Benefit</th></tr></thead>
+      <tbody>
+        <tr><td>OpenAPI import</td><td>Route coverage without fragile crawling</td></tr>
+        <tr><td>Auth scripting</td><td>Test behind login</td></tr>
+        <tr><td>Baseline mode</td><td>Fail build only on <em>new</em> alerts</td></tr>
+        <tr><td>CI-friendly exit codes</td><td>Gate pipelines deterministically</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Tools comparison</h2>
+    <table>
+      <thead><tr><th>Tool</th><th>Strength</th><th>Trade-off</th></tr></thead>
+      <tbody>
+        <tr><td>OWASP ZAP</td><td>Open source, automation, huge community</td><td>Tuning needed for low noise</td></tr>
+        <tr><td>Burp Suite</td><td>Manual + pro scanner, great for testers</td><td>Pro is commercial</td></tr>
+        <tr><td>Commercial DAST clouds</td><td>Managed infra, compliance reports</td><td>Cost, less customization</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid">
+    <div class="card" style="margin-bottom:0;">
+      <h2>Pros</h2>
+      <ul>
+        <li>Sees real WAF, headers, TLS, and routing behavior</li>
+        <li>No access to source required</li>
+        <li>Catches deployment-only mistakes</li>
+      </ul>
+    </div>
+    <div class="card" style="margin-bottom:0;">
+      <h2>Cons</h2>
+      <ul>
+        <li>Slower than SAST; needs running env</li>
+        <li>Route coverage gaps without specs or crawl</li>
+        <li>False negatives on hidden business-logic flaws</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Example: ZAP baseline in GitHub Actions</h2>
+    <pre><code>jobs:
+  zap-baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: 'https://staging.example.internal'
+          rules_file_name: '.zap/rules.tsv'
+          fail_action: true</code></pre>
+    <p style="margin:0;color:var(--muted);font-size:0.92rem;">Replace target with your authorized staging URL; add authentication hooks as needed for your app.</p>
+  </div>
+</div>
+</body>
+</html>

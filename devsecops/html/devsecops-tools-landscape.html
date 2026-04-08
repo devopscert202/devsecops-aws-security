@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevSecOps Tools Landscape — DevSecOps Interactive Learning</title>
+<style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+.phase-bar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 16px 0 8px; }
+.phase-btn {
+  border: 2px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--sec-blue-deep);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.88rem;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.phase-btn:hover { border-color: var(--sec-blue); background: var(--sec-sky); }
+.phase-btn.active { background: var(--sec-blue); color: #fff; border-color: var(--sec-blue); }
+.tool-row.hidden { display: none; }
+.pipe-viz {
+  font-family: 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  background: var(--sec-sky);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 16px;
+  overflow-x: auto;
+  white-space: pre;
+  color: var(--ink);
+}
+.legend { font-size: 0.9rem; color: var(--muted); margin-top: 8px; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+<header class="hero">
+<a href="index.html" class="home-link">&#8962; Home</a>
+<h1>DevSecOps Tools Landscape</h1>
+<p class="subtitle">Reference map of security tools by category and pipeline phase &mdash; click a phase to filter</p>
+</header>
+
+<div class="card">
+<h2>Pipeline phases (interactive)</h2>
+<p class="legend">Select a phase to highlight tools commonly used there. Choose <strong>All phases</strong> to see the full catalog.</p>
+<div class="phase-bar" id="phaseBar" role="tablist" aria-label="Pipeline phases">
+<button type="button" class="phase-btn active" data-phase="all" role="tab" aria-selected="true">All phases</button>
+<button type="button" class="phase-btn" data-phase="plan" role="tab" aria-selected="false">Plan</button>
+<button type="button" class="phase-btn" data-phase="code" role="tab" aria-selected="false">Code</button>
+<button type="button" class="phase-btn" data-phase="build" role="tab" aria-selected="false">Build</button>
+<button type="button" class="phase-btn" data-phase="test" role="tab" aria-selected="false">Test</button>
+<button type="button" class="phase-btn" data-phase="deploy" role="tab" aria-selected="false">Deploy</button>
+<button type="button" class="phase-btn" data-phase="operate" role="tab" aria-selected="false">Operate</button>
+</div>
+<div class="pipe-viz">  PLAN        CODE         BUILD         TEST          DEPLOY        OPERATE
+ threat      IDE/SAST      SCA/CI        DAST/IAST     IaC policy    CSPM/runtime
+ modeling    secrets       containers    API fuzz      approvals     SIEM/SOAR</div>
+</div>
+
+<div class="card">
+<h2>Tool catalog</h2>
+<p style="color:var(--muted);margin-top:0;">Categories: SAST, DAST, SCA, container security, IaC scanning, secrets detection, CSPM. License column is indicative only.</p>
+<table id="toolTable">
+<thead>
+<tr><th>Tool</th><th>Category</th><th>Primary phase(s)</th><th>What it does</th><th>OSS / Commercial</th></tr>
+</thead>
+<tbody id="toolBody">
+<tr class="tool-row" data-phases="plan"><td>OWASP Threat Dragon</td><td>Threat modeling</td><td>Plan</td><td>Diagram-driven STRIDE-style threat models tied to Git.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="plan"><td>Microsoft Threat Modeling Tool</td><td>Threat modeling</td><td>Plan</td><td>Data-flow diagrams with STRIDE rule templates.</td><td><span class="tag tag-amber">Free (not OSS)</span></td></tr>
+<tr class="tool-row" data-phases="code"><td>SonarQube / SonarCloud</td><td>SAST</td><td>Code, Build</td><td>Static analysis for bugs, hotspots, and security rules in PRs.</td><td><span class="tag tag-amber">Both</span></td></tr>
+<tr class="tool-row" data-phases="code"><td>Semgrep</td><td>SAST</td><td>Code, Build</td><td>Fast pattern-based static analysis with community rules.</td><td><span class="tag tag-green">OSS</span> + <span class="tag tag-amber">commercial</span></td></tr>
+<tr class="tool-row" data-phases="code"><td>Checkmarx SAST</td><td>SAST</td><td>Code, Build</td><td>Enterprise static analysis with centralized policy.</td><td><span class="tag tag-rose">Commercial</span></td></tr>
+<tr class="tool-row" data-phases="code"><td>Veracode Static Analysis</td><td>SAST</td><td>Code, Build</td><td>Cloud static scanning with policy gates.</td><td><span class="tag tag-rose">Commercial</span></td></tr>
+<tr class="tool-row" data-phases="code build"><td>GitGuardian ggshield</td><td>Secrets detection</td><td>Code, Build</td><td>Scans commits and CI for leaked credentials.</td><td><span class="tag tag-amber">Both</span></td></tr>
+<tr class="tool-row" data-phases="code build"><td>TruffleHog</td><td>Secrets detection</td><td>Code, Build</td><td>High-signal secret scanning with verified validators.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="code build"><td>Gitleaks</td><td>Secrets detection</td><td>Code, Build</td><td>Regex and entropy-based secret detection in repos.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="build"><td>OWASP Dependency-Check</td><td>SCA</td><td>Build</td><td>Correlates dependencies to NVD CVEs.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="build"><td>Snyk Open Source</td><td>SCA</td><td>Build</td><td>Dependency vulnerability and license analysis.</td><td><span class="tag tag-amber">Both</span></td></tr>
+<tr class="tool-row" data-phases="build"><td>Mend (WhiteSource)</td><td>SCA</td><td>Build</td><td>Enterprise dependency governance and SBOM.</td><td><span class="tag tag-rose">Commercial</span></td></tr>
+<tr class="tool-row" data-phases="build"><td>Gradle OWASP plugin / npm audit</td><td>SCA</td><td>Build</td><td>Build-native dependency CVE checks.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="build deploy"><td>Trivy</td><td>Container security</td><td>Build, Deploy</td><td>Image/filesystem vuln scan, IaC misconfig, secrets.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="build deploy"><td>Grype</td><td>Container security</td><td>Build, Deploy</td><td>SBOM-oriented image vulnerability scanner.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="build operate"><td>Clair</td><td>Container security</td><td>Build, Operate</td><td>Static analysis of container image layers.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="build"><td>Sigstore / Cosign</td><td>Container security</td><td>Build</td><td>Sign and verify OCI artifacts and SBOMs.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="test"><td>OWASP ZAP</td><td>DAST</td><td>Test</td><td>Proxy and automated scanner for web apps/APIs.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="test"><td>Burp Suite</td><td>DAST</td><td>Test</td><td>Manual and automated web security testing.</td><td><span class="tag tag-amber">Both</span></td></tr>
+<tr class="tool-row" data-phases="test"><td>Acunetix / Invicti</td><td>DAST</td><td>Test</td><td>Continuous web vulnerability scanning.</td><td><span class="tag tag-rose">Commercial</span></td></tr>
+<tr class="tool-row" data-phases="test"><td>Contrast Security / Seeker-style</td><td>DAST</td><td>Test</td><td>Interactive/IAST-style runtime-assisted testing.</td><td><span class="tag tag-rose">Commercial</span></td></tr>
+<tr class="tool-row" data-phases="deploy"><td>Checkov</td><td>IaC scanning</td><td>Deploy</td><td>Static policy checks for Terraform, K8s, CloudFormation.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="deploy"><td>Terraform tfsec</td><td>IaC scanning</td><td>Deploy</td><td>Security scanner focused on Terraform HCL.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="deploy"><td>cfn-lint + guard rules</td><td>IaC scanning</td><td>Deploy</td><td>CloudFormation validation and policy-as-code.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="deploy"><td>OPA / Conftest</td><td>IaC scanning</td><td>Deploy</td><td>Rego policies against Kubernetes YAML and IaC JSON.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="operate"><td>Wiz</td><td>CSPM</td><td>Operate</td><td>Cloud posture, CIEM, data risk graph across providers.</td><td><span class="tag tag-rose">Commercial</span></td></tr>
+<tr class="tool-row" data-phases="operate"><td>Prisma Cloud / CWPP</td><td>CSPM</td><td>Operate</td><td>Posture, compliance, workload protection.</td><td><span class="tag tag-rose">Commercial</span></td></tr>
+<tr class="tool-row" data-phases="operate"><td>ScoutSuite / Prowler</td><td>CSPM</td><td>Operate</td><td>Open multi-cloud security assessments.</td><td><span class="tag tag-green">OSS</span></td></tr>
+<tr class="tool-row" data-phases="operate"><td>AWS Security Hub + Config</td><td>CSPM</td><td>Operate</td><td>Native AWS control plane aggregation and rules.</td><td><span class="tag tag-amber">Commercial (AWS)</span></td></tr>
+</tbody>
+</table>
+<p id="emptyHint" class="legend" style="display:none;">No tools mapped primarily to that phase; try <strong>All phases</strong> or an adjacent stage.</p>
+</div>
+
+<div class="grid">
+<div class="card">
+<h2>How to read the map</h2>
+<ul>
+<li><strong>SAST</strong> finds code-level flaws early; pair with secure code review.</li>
+<li><strong>DAST</strong> exercises running systems; catches deployment and config mistakes.</li>
+<li><strong>SCA</strong> focuses on third-party risk; feeds patch and SBOM processes.</li>
+<li><strong>Container security</strong> combines image scanning, signing, and minimal base images.</li>
+<li><strong>IaC scanning</strong> shifts policy left on cloud and Kubernetes manifests.</li>
+<li><strong>Secrets detection</strong> reduces credential sprawl in Git and build logs.</li>
+<li><strong>CSPM</strong> maintains continuous cloud control validation in production.</li>
+</ul>
+</div>
+<div class="card">
+<h2>Operational tips</h2>
+<p>Prefer <strong>outcomes</strong> over tool count: tune rules, reduce false positives, and wire top findings into product backlogs. Correlate DAST + SAST + SCA on the same feature branch when possible to see chained risk (vulnerable dependency reachable via new route).</p>
+</div>
+</div>
+
+</div>
+<script>
+(function () {
+  var buttons = document.querySelectorAll('.phase-btn');
+  var rows = document.querySelectorAll('.tool-row');
+  var hint = document.getElementById('emptyHint');
+
+  function setPhase(phase) {
+    var visible = 0;
+    rows.forEach(function (row) {
+      var phases = (row.getAttribute('data-phases') || '').split(/\s+/).filter(Boolean);
+      var show = phase === 'all' || phases.indexOf(phase) !== -1;
+      row.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    hint.style.display = visible === 0 ? 'block' : 'none';
+    buttons.forEach(function (btn) {
+      var active = btn.getAttribute('data-phase') === phase;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+  }
+
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setPhase(btn.getAttribute('data-phase') || 'all');
+    });
+  });
+})();
+</script>
+</body>
+</html>

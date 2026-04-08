@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Software Composition Analysis (SCA) — DevSecOps Interactive Learning</title>
+  <style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+@media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header class="hero">
+    <a href="index.html" class="home-link">&#8962; Home</a>
+    <h1>Software Composition Analysis (SCA)</h1>
+    <p class="subtitle">Your application includes other people’s code—SCA tells you when that code is risky.</p>
+  </header>
+
+  <div class="card">
+    <h2>What is SCA?</h2>
+    <p>SCA tools build a <strong>bill of materials</strong> (BOM) of open-source and third-party dependencies (direct and transitive), then match versions against vulnerability databases. Advanced SCA also flags license risk, outdated packages, and malware in registries.</p>
+  </div>
+
+  <div class="card">
+    <h2>Why open-source dependencies are a risk</h2>
+    <ul>
+      <li><strong>Transitive depth:</strong> A single import can pull dozens of nested libraries.</li>
+      <li><strong>CVE velocity:</strong> New disclosures affect old pinned versions overnight.</li>
+      <li><strong>Supply chain:</strong> Typosquatting, compromised maintainers, hijacked packages.</li>
+      <li><strong>Shadow IT:</strong> Copied snippets and vendored code bypass package manifests if not tracked.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Tools</h2>
+    <table>
+      <thead><tr><th>Tool</th><th>Scope</th><th>Typical use</th></tr></thead>
+      <tbody>
+        <tr><td>OWASP Dependency-Check</td><td>Multi-ecosystem CLI</td><td>CI job producing SARIF/HTML reports</td></tr>
+        <tr><td>Snyk</td><td>SCA + container + IaC</td><td>PR fixes, policy by severity</td></tr>
+        <tr><td>npm audit</td><td>Node/npm</td><td>Local and CI `npm audit --production`</td></tr>
+        <tr><td>OSV / GitHub Dependabot</td><td>Git-native</td><td>Automated version bump PRs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>CVE databases (and friends)</h2>
+    <table>
+      <thead><tr><th>Source</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CVE</strong> dictionary</td><td>Identifiers + descriptions (MITRE)</td></tr>
+        <tr><td><strong>NVD</strong></td><td>Enriched CVE records, CVSS scores, CPE matching</td></tr>
+        <tr><td><strong>GHSA</strong></td><td>GitHub Security Advisory database</td></tr>
+        <tr><td><strong>OSV</strong></td><td>Open-source vuln DB with ecosystem-specific ranges</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Example: npm audit output (illustrative)</h2>
+    <pre><code># npm audit --json (excerpt)
+{
+  "vulnerabilities": {
+    "lodash": {
+      "name": "lodash",
+      "severity": "high",
+      "via": [{ "source": 1234567, "name": "lodash", "range": "<4.17.21" }],
+      "effects": [],
+      "range": "<4.17.21",
+      "nodes": ["node_modules/lodash"],
+      "fixAvailable": { "name": "lodash", "version": "4.17.21" }
+    }
+  },
+  "metadata": { "vulnerabilities": { "high": 1 } }
+}</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>Remediation strategies</h2>
+    <div class="grid" style="margin-bottom:0;">
+      <div>
+        <h3 style="color:var(--sec-blue-deep);margin-top:0;">Upgrade path</h3>
+        <ol>
+          <li>Patch to fixed version in lockfile.</li>
+          <li>Run tests + smoke scan; watch breaking changes.</li>
+        </ol>
+      </div>
+      <div>
+        <h3 style="color:var(--sec-blue-deep);margin-top:0;">When upgrade is hard</h3>
+        <ul>
+          <li>Isolate dependency behind a wrapper service.</li>
+          <li>Compensating controls (WAF rules, feature flags off).</li>
+          <li>Time-boxed exception with owner + expiry.</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-bottom:0;"><span class="tag tag-green">SBOM</span> Export CycloneDX/SPDX from CI so operations and customers can consume the same inventory you scan.</p>
+  </div>
+</div>
+</body>
+</html>

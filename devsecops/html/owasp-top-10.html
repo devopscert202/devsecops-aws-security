@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OWASP Top 10 — DevSecOps Interactive Learning</title>
+<style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+.risk-card { border: 1px solid var(--card-border); border-radius: var(--radius); padding: 0 16px 12px; margin-bottom: 14px; background: var(--card-bg); box-shadow: 0 2px 8px rgba(15,23,42,0.04); }
+.risk-card summary { padding: 14px 0; font-size: 1.05rem; }
+.sev-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 8px 0 12px; }
+.sev-meter { flex: 1; min-width: 160px; max-width: 280px; height: 10px; border-radius: 5px; background: #e2e8f0; overflow: hidden; }
+.sev-meter > i { display: block; height: 100%; border-radius: 5px; font-style: normal; }
+.sev-high { background: linear-gradient(90deg, var(--amber), var(--rose)); width: 92%; }
+.sev-mid { background: linear-gradient(90deg, var(--green), var(--amber)); width: 68%; }
+.sev-mixed { background: linear-gradient(90deg, var(--green), var(--sec-blue)); width: 55%; }
+.tool-refs { font-size: 0.9rem; color: var(--muted); margin-top: 8px; }
+.tool-refs strong { color: var(--sec-blue-deep); }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+<header class="hero">
+<a href="index.html" class="home-link">&#8962; Home</a>
+<h1>OWASP Top 10 &mdash; Web Application Security Risks</h1>
+<p class="subtitle">OWASP Top 10 (2021) with examples, controls, detection ideas, and tool cross-references</p>
+</header>
+
+<div class="card">
+<h2>How to use this page</h2>
+<p>Expand each risk card for narrative guidance. The <strong>severity meter</strong> is a teaching aid (relative prevalence/impact in many apps, not a CVSS score). Map controls to your stack and threat model.</p>
+</div>
+
+<div class="risk-card">
+<details>
+<summary>A01:2021 &mdash; Broken Access Control</summary>
+<div class="sev-row"><span class="tag tag-rose">High prevalence</span><div class="sev-meter" title="Relative emphasis"><i class="sev-high"></i></div></div>
+<p><strong>Description.</strong> Users can act outside their intended permissions because enforcement is missing, inconsistent, or relies on client-side checks.</p>
+<p><strong>Real-world example.</strong> Changing <code>/api/orders/1024</code> to <code>/api/orders/1025</code> returns another customer&rsquo;s order because the API trusts the path parameter without server-side authorization.</p>
+<p><strong>Impact.</strong> Data breach, account takeover, privilege escalation, regulatory fines.</p>
+<p><strong>Prevention.</strong> Deny by default; centralize authorization; use policy engines; test horizontal/vertical access paths; avoid exposing identifiers without binding to the session subject.</p>
+<p><strong>Detection.</strong> Abnormal object access rates, 403/401 spikes after releases, DAST crawls that reach admin routes, audit logs showing IDOR patterns.</p>
+<p class="tool-refs"><strong>Tools:</strong> SAST (authz bug patterns), DAST (forced browsing), custom integration tests, WAF only as a coarse layer (not a fix).</p>
+</details>
+</div>
+
+<div class="risk-card">
+<details>
+<summary>A02:2021 &mdash; Cryptographic Failures</summary>
+<div class="sev-row"><span class="tag tag-rose">High impact</span><div class="sev-meter"><i class="sev-high"></i></div></div>
+<p><strong>Description.</strong> Weak or missing cryptography exposes data at rest or in transit (wrong algorithm, hardcoded keys, TLS off, sensitive data in URLs).</p>
+<p><strong>Real-world example.</strong> Database column stores credit card numbers plaintext &ldquo;for debugging&rdquo; and backups copy them unchanged to object storage.</p>
+<p><strong>Impact.</strong> Mass credential and PII disclosure, compliance failure.</p>
+<p><strong>Prevention.</strong> TLS everywhere, modern AEAD ciphers, KMS/HSM-backed keys, field-level encryption for sensitive columns, secret rotation, purge unnecessary data.</p>
+<p><strong>Detection.</strong> SCA/license scans for weak crypto libs, DAST for mixed content/downgrade, data-classification tooling on storage.</p>
+<p class="tool-refs"><strong>Tools:</strong> SAST (crypto misuse rules), SCA, CSPM for bucket encryption defaults, cloud KMS integrations.</p>
+</details>
+</div>
+
+<div class="risk-card">
+<details>
+<summary>A03:2021 &mdash; Injection</summary>
+<div class="sev-row"><span class="tag tag-rose">Classic critical</span><div class="sev-meter"><i class="sev-high"></i></div></div>
+<p><strong>Description.</strong> Untrusted input becomes part of a command or query (SQL, OS, LDAP, template, NoSQL).</p>
+<p><strong>Real-world example.</strong> Search box concatenates into SQL: <code>' OR 1=1--</code> returns all rows.</p>
+<p><strong>Impact.</strong> Full database compromise, RCE, data destruction.</p>
+<p><strong>Prevention.</strong> Parameterized queries/ORMs, input validation with allow-lists, escaping only as defense-in-depth, least-privilege DB accounts.</p>
+<p><strong>Detection.</strong> WAF signatures, DB audit of unusual queries, SAST taint analysis, fuzzing with error-based payloads.</p>
+<p class="tool-refs"><strong>Tools:</strong> SAST (taint), DAST (payload corpora), IAST where available, database activity monitoring.</p>
+</details>
+</div>
+
+<div class="risk-card">
+<details>
+<summary>A04:2021 &mdash; Insecure Design</summary>
+<div class="sev-row"><span class="tag tag-amber">Systemic</span><div class="sev-meter"><i class="sev-mid"></i></div></div>
+<p><strong>Description.</strong> Missing or ineffective security architecture&mdash;threats that code alone cannot patch (business logic abuse, weak trust boundaries).</p>
+<p><strong>Real-world example.</strong> E-commerce allows negative quantity in the cart API, creating a discount exploit because pricing logic never validated invariants.</p>
+<p><strong>Impact.</strong> Fraud, irreversible architectural debt, repeated incidents.</p>
+<p><strong>Prevention.</strong> Threat modeling, secure design patterns, misuse cases, separation of duties, fraud analytics, reference architectures.</p>
+<p><strong>Detection.</strong> Abuse analytics, anomaly detection on business metrics, purple-team scenarios targeting workflows.</p>
+<p class="tool-refs"><strong>Tools:</strong> Threat modeling apps, manual architecture review; complement with SAST/DAST for symptoms, not root cause.</p>
+</details>
+</div>
+
+<div class="risk-card">
+<details>
+<summary>A05:2021 &mdash; Security Misconfiguration</summary>
+<div class="sev-row"><span class="tag tag-rose">Very common</span><div class="sev-meter"><i class="sev-high"></i></div></div>
+<p><strong>Description.</strong> Default credentials, verbose errors, open cloud storage, unnecessary features, missing security headers.</p>
+<p><strong>Real-world example.</strong> Admin console enabled on the Internet with default password; stack traces expose ORM and driver versions.</p>
+<p><strong>Impact.</strong> Easy lateral movement, fingerprinting, full compromise.</p>
+<p><strong>Prevention.</strong> Hardened baselines, IaC scanning, automated drift detection, periodic pentests, minimal attack surface.</p>
+<p><strong>Detection.</strong> CSPM/Config rules, DAST passive scan, security headers checks in CI.</p>
+<p class="tool-refs"><strong>Tools:</strong> IaC scanners (Checkov, tfsec), CSPM, DAST, container/image scanners for default users.</p>
+</details>
+</div>
+
+<div class="risk-card">
+<details>
+<summary>A06:2021 &mdash; Vulnerable and Outdated Components</summary>
+<div class="sev-row"><span class="tag tag-amber">Supply chain</span><div class="sev-meter"><i class="sev-mid"></i></div></div>
+<p><strong>Description.</strong> Unpatched libraries, abandoned dependencies, typosquatted packages.</p>
+<p><strong>Real-world example.</strong> Production still runs a three-year-old Struts version with a public RCE CVE.</p>
+<p><strong>Impact.</strong> Remote code execution, malware in build pipelines.</p>
+<p><strong>Prevention.</strong> Pin versions, SBOM, automated upgrades, private registries, integrity verification, vendor SLAs.</p>
+<p><strong>Detection.</strong> SCA in CI/CD, runtime bill-of-materials correlation, alert on new CVEs for shipped SBOM.</p>
+<p class="tool-refs"><strong>Tools:</strong> SCA (Snyk, OWASP Dependency-Check, Mend), container scanners (Trivy, Grype), GitHub Dependabot-style bots.</p>
+</details>
+</div>
+
+<div class="risk-card">
+<details>
+<summary>A07:2021 &mdash; Identification and Authentication Failures</summary>
+<div class="sev-row"><span class="tag tag-rose">Account risk</span><div class="sev-meter"><i class="sev-high"></i></div></div>
+<p><strong>Description.</strong> Weak passwords, broken MFA, session fixation, credential stuffing success, JWT misuse.</p>
+<p><strong>Real-world example.</strong> Login lacks rate limits; attackers reuse breached passwords and harvest accounts.</p>
+<p><strong>Impact.</strong> Account takeover, fraud, lateral movement to SSO-linked apps.</p>
+<p><strong>Prevention.</strong> MFA, secure session management, passwordless where viable, breached-password checks, lockouts with care for UX abuse.</p>
+<p><strong>Detection.</strong> Geo-velocity alerts, impossible travel, spike in failed logins, GuardDuty-style identity signals in cloud.</p>
+<p class="tool-refs"><strong>Tools:</strong> DAST auth flows, SAST for hardcoded creds, bot management/WAF, IdP analytics.</p>
+</details>
+</div>
+
+<div class="risk-card">
+<details>
+<summary>A08:2021 &mdash; Software and Data Integrity Failures</summary>
+<div class="sev-row"><span class="tag tag-amber">Pipeline trust</span><div class="sev-meter"><i class="sev-mid"></i></div></div>
+<p><strong>Description.</strong> CI/CD or update channels without integrity checks; unsigned artifacts; unsafe deserialization.</p>
+<p><strong>Real-world example.</strong> Build server runs a post-install script that pulls unverified bash from a URL.</p>
+<p><strong>Impact.</strong> Supply-chain compromise, widespread trojanized releases.</p>
+<p><strong>Prevention.</strong> Signed commits, signed images (Cosign), verified provenance (SLSA-style), lockfiles, restricted runner permissions.</p>
+<p><strong>Detection.</strong> Monitor pipeline templates, alert on new publisher IDs, binary transparency where applicable.</p>
+<p class="tool-refs"><strong>Tools:</strong> SCA + SBOM signing, OCI signing, secrets scanning in pipelines, IaC for least-privilege runners.</p>
+</details>
+</div>
+
+<div class="risk-card">
+<details>
+<summary>A09:2021 &mdash; Security Logging and Monitoring Failures</summary>
+<div class="sev-row"><span class="tag tag-amber">Detection gap</span><div class="sev-meter"><i class="sev-mid"></i></div></div>
+<p><strong>Description.</strong> Insufficient logs, unclear ownership, no alerting, or logs that attackers can tamper with.</p>
+<p><strong>Real-world example.</strong> Admin actions are not audited; during an incident the team cannot prove what changed.</p>
+<p><strong>Impact.</strong> Long dwell time, failed forensics, compliance findings.</p>
+<p><strong>Prevention.</strong> Centralized tamper-evident logging, high-value event schemas, retention policies, tabletop exercises.</p>
+<p><strong>Detection.</strong> SIEM correlation rules, UEBA, synthetic security tests that must generate alerts.</p>
+<p class="tool-refs"><strong>Tools:</strong> SIEM/SOAR, cloud audit services (CloudTrail, Azure Monitor), structured logging libraries, synthetic canaries.</p>
+</details>
+</div>
+
+<div class="risk-card">
+<details>
+<summary>A10:2021 &mdash; Server-Side Request Forgery (SSRF)</summary>
+<div class="sev-row"><span class="tag tag-green">Narrower but severe</span><div class="sev-meter"><i class="sev-mixed"></i></div></div>
+<p><strong>Description.</strong> The server fetches a URL supplied by the user, reaching internal services or cloud metadata endpoints.</p>
+<p><strong>Real-world example.</strong> &ldquo;Import from URL&rdquo; feature pulls <code>http://169.254.169.254/latest/meta-data/</code> and leaks IAM role keys.</p>
+<p><strong>Impact.</strong> Cloud credential theft, internal port scanning, pivot to VPC services.</p>
+<p><strong>Prevention.</strong> Network egress controls, URL allow-lists, disable unused URL fetchers, metadata IMDSv2 patterns on cloud VMs.</p>
+<p><strong>Detection.</strong> Outbound connection anomalies, DAST SSRF payloads, cloud alerts on metadata access.</p>
+<p class="tool-refs"><strong>Tools:</strong> DAST specialized modules, SAST for URL builders, CSPM/network policy reviews.</p>
+</details>
+</div>
+
+<div class="card">
+<h2>Cross-reference matrix (summary)</h2>
+<table>
+<thead><tr><th>Risk cluster</th><th>Primary automated testing</th><th>Primary governance</th></tr></thead>
+<tbody>
+<tr><td>Access + Auth (A01, A07)</td><td>DAST + custom tests</td><td>IAM standards, session libraries</td></tr>
+<tr><td>Data protection (A02, A03)</td><td>SAST + SCA</td><td>KMS, data classification</td></tr>
+<tr><td>Design + Misconfig (A04, A05)</td><td>IaC + CSPM</td><td>Threat modeling, golden paths</td></tr>
+<tr><td>Components + Integrity (A06, A08)</td><td>SCA + signing</td><td>SBOM, vendor risk</td></tr>
+<tr><td>Detection + SSRF (A09, A10)</td><td>DAST + SIEM rules</td><td>Network segmentation</td></tr>
+</tbody>
+</table>
+</div>
+
+</div>
+</body>
+</html>

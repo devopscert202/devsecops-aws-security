@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IAM Security Best Practices — DevSecOps Interactive Learning</title>
+<style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+
+.hier { display: flex; flex-direction: column; gap: 8px; align-items: center; margin: 20px 0; }
+.hier-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.hier-box { padding: 12px 20px; border-radius: 10px; font-weight: 700; text-align: center; }
+.h-root { background: var(--sec-blue); color: #fff; min-width: 200px; }
+.h-mid { background: var(--sec-sky); color: var(--sec-blue-deep); border: 1px solid var(--card-border); }
+.h-leaf { background: var(--card-bg); border: 2px solid var(--sec-blue); color: var(--ink); font-size: 0.9rem; }
+.bp-num { list-style: none; padding: 0; margin: 0; counter-reset: bp; }
+.bp-num > li { counter-increment: bp; margin-bottom: 12px; border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; background: var(--card-bg); }
+.bp-num > li::before { display: none; }
+.bp-head { width: 100%; text-align: left; padding: 14px 16px; border: none; background: var(--surface); cursor: pointer; font: inherit; font-weight: 700; color: var(--sec-blue-deep); display: flex; align-items: center; gap: 12px; }
+.bp-head::before { content: counter(bp); background: var(--sec-blue); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; }
+.bp-head:hover { background: var(--sec-sky); }
+.bp-body { display: none; padding: 0 16px 14px 56px; border-top: 1px solid var(--card-border); color: var(--ink); }
+.bp-body.open { display: block; }
+
+</style>
+</head>
+<body>
+<div class="container">
+<header class="hero">
+<a href="index.html" class="home-link">&#8962; Home</a>
+<h1>IAM Security Best Practices</h1>
+<p class="subtitle">Structure identities, policies, and monitoring for resilient access.</p>
+</header>
+<div class="card"><h2>IAM entity hierarchy</h2>
+<div class="hier"><div class="hier-box h-root">AWS Account / Organization</div>
+<div class="hier-row"><div class="hier-box h-mid">Users</div><div class="hier-box h-mid">Groups</div><div class="hier-box h-mid">Roles</div></div>
+<div class="hier-row"><div class="hier-box h-leaf">Inline &amp; managed policies</div><div class="hier-box h-leaf">Permission boundaries</div><div class="hier-box h-leaf">SCPs (org)</div></div></div></div>
+<div class="card"><h2>Best practices — expand each card</h2>
+<ol class="bp-num">
+<li><button type="button" class="bp-head" aria-expanded="false" data-i="0">Enable MFA for humans and break-glass</button><div class="bp-body" id="bp0"><p>Require hardware or app MFA for console; protect root with MFA and minimal use.</p></div></li>
+<li><button type="button" class="bp-head" aria-expanded="false" data-i="1">Least privilege by default</button><div class="bp-body" id="bp1"><p>Start with zero permissions; add actions/resources explicitly; review quarterly.</p></div></li>
+<li><button type="button" class="bp-head" aria-expanded="false" data-i="2">Prefer roles over long-lived keys</button><div class="bp-body" id="bp2"><p>Use IAM roles for workloads, OIDC from CI, instance profiles; rotate any remaining keys.</p></div></li>
+<li><button type="button" class="bp-head" aria-expanded="false" data-i="3">Monitor with CloudTrail</button><div class="bp-body" id="bp3"><p>Alert on <code>CreateUser</code>, <code>AttachUserPolicy</code>, console login anomalies.</p></div></li>
+<li><button type="button" class="bp-head" aria-expanded="false" data-i="4">Credential rotation &amp; session duration</button><div class="bp-body" id="bp4"><p>Short STS lifetimes; automate key rotation where keys are unavoidable.</p></div></li>
+<li><button type="button" class="bp-head" aria-expanded="false" data-i="5">Policy conditions</button><div class="bp-body" id="bp5"><p>Restrict by IP, VPC endpoint, MFA presence, time window, and resource tags.</p></div></li>
+</ol></div>
+</div>
+<script>
+document.querySelectorAll(".bp-head").forEach(function(btn){
+  btn.addEventListener("click", function(){
+    var id = "bp" + btn.getAttribute("data-i");
+    var body = document.getElementById(id);
+    var open = body.classList.toggle("open");
+    btn.setAttribute("aria-expanded", open);
+  });
+});
+</script>
+</body>
+</html>

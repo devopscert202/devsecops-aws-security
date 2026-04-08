@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Threat Modeling: E-Commerce Case Study</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --brand: #326ce5;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --sky: #e8f0fe;
+      --surface: #f8fafc;
+    }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: linear-gradient(180deg, var(--surface) 0%, #eef2f7 100%);
+      color: var(--ink);
+      line-height: 1.6;
+      padding: 20px;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    .hero {
+      position: relative;
+      background: #fff;
+      border-radius: 14px;
+      padding: 28px 24px 22px;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(50, 108, 229, 0.12);
+      margin-bottom: 22px;
+    }
+    .home {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      font-weight: 700;
+      color: var(--brand);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .home:hover { text-decoration: underline; }
+    h1 {
+      font-size: clamp(1.55rem, 3.5vw, 2.15rem);
+      color: var(--brand);
+      margin-bottom: 8px;
+      padding-right: 72px;
+    }
+    .subtitle { color: var(--muted); font-size: 1.02rem; max-width: 820px; }
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+    }
+    .card h2 { font-size: 1.15rem; margin-bottom: 12px; }
+    .matrix-wrap { overflow-x: auto; margin-top: 10px; }
+    table.matrix {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      min-width: 520px;
+    }
+    .matrix th, .matrix td {
+      border: 1px solid #e2e8f0;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .matrix th { background: var(--sky); color: #1e3a8a; }
+    .matrix td.stride { font-weight: 700; color: var(--brand); width: 90px; }
+    .matrix input[type="checkbox"] { margin-right: 6px; vertical-align: middle; }
+    .matrix tr.dimmed { opacity: 0.35; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
+    .toolbar button {
+      border: 2px solid var(--brand);
+      background: #fff;
+      color: var(--brand);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .toolbar button:hover { background: var(--sky); }
+    .pasta {
+      counter-reset: stage;
+      list-style: none;
+      margin-top: 10px;
+    }
+    .pasta li {
+      position: relative;
+      padding-left: 36px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .pasta li::before {
+      counter-increment: stage;
+      content: counter(stage);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pasta strong { color: var(--ink); }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: var(--surface);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.82rem;
+      margin-top: 10px;
+    }
+    table.cm {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      margin-top: 10px;
+    }
+    table.cm th, table.cm td {
+      border: 1px solid #e2e8f0;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    table.cm th { background: var(--surface); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <a class="home" href="index.html">Home</a>
+      <h1>Threat Modeling: E-Commerce Case Study</h1>
+      <p class="subtitle">A storefront with cart, checkout, and a third-party payment gateway—mapped with STRIDE categories, DREAD-style scoring, and a PASTA-style staged analysis.</p>
+    </header>
+
+    <section class="card">
+      <h2>Scenario</h2>
+      <p style="color:var(--muted);font-size:0.95rem;">Customers browse products (SPA), place orders via a BFF API, and complete payment through a PCI-scoped gateway integration. Admin users manage catalog and refunds through a separate console.</p>
+    </section>
+
+    <section class="card">
+      <h2>STRIDE — payment gateway threats</h2>
+      <ul style="color:var(--muted);font-size:0.95rem;margin-left:1.2rem;">
+        <li><strong style="color:var(--ink)">Spoofing</strong>: Attacker replays stolen session tokens at checkout.</li>
+        <li><strong style="color:var(--ink)">Tampering</strong>: Man-in-the-middle modifies payment amount or merchant ID in API calls.</li>
+        <li><strong style="color:var(--ink)">Repudiation</strong>: Customer denies placing order; missing signed audit on payment intent.</li>
+        <li><strong style="color:var(--ink)">Information disclosure</strong>: Logs capture full PAN or CVV from misconfigured debug.</li>
+        <li><strong style="color:var(--ink)">Denial of service</strong>: Flood checkout endpoint during flash sale.</li>
+        <li><strong style="color:var(--ink)">Elevation of privilege</strong>: Support agent API allows refund without role check.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>DREAD — scoring (example)</h2>
+      <p style="color:var(--muted);font-size:0.95rem;margin-bottom:8px;">Each dimension 1–10; total shown as sum / 50 for quick comparison (teams often average instead—pick one method and stay consistent).</p>
+      <pre>Token replay at checkout       D10 R9 A8 E7 D6  → 40/50
+MITM on payment callback       D9  R6 A5 E8 D5  → 33/50
+Verbose logging of card data   D10 R7 A6 E9 D4  → 36/50
+Checkout flooding              D6  R8 A4 E3 D9  → 30/50</pre>
+    </section>
+
+    <section class="card">
+      <h2>PASTA — 7 stages (e-commerce walkthrough)</h2>
+      <ol class="pasta">
+        <li><strong>Define objectives</strong> — Protect customer PII, maintain payment integrity, 99.9% checkout availability during campaigns.</li>
+        <li><strong>Define technical scope</strong> — SPA, BFF, order service, payment adapter, gateway webhooks, admin console, data stores.</li>
+        <li><strong>Application decomposition</strong> — DFDs for browse → cart → pay; trust boundaries at CDN, API gateway, and webhook ingress.</li>
+        <li><strong>Threat analysis</strong> — STRIDE per component; abuse cases for coupons, refunds, and webhook replay.</li>
+        <li><strong>Vulnerability analysis</strong> — Weak auth on admin paths, SSRF on webhook validator, dependency CVEs in BFF.</li>
+        <li><strong>Attack modeling</strong> — Kill chains: phish → token theft → fraudulent orders; insider misuse of refund API.</li>
+        <li><strong>Risk &amp; countermeasures</strong> — Prioritize fixes; tie to secure SDLC gates and monitoring use cases.</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>Interactive threat matrix</h2>
+      <p style="color:var(--muted);font-size:0.95rem;margin-bottom:8px;">Check threats your team has explicitly mitigated in design review. Use “Highlight unmitigated” to focus residual risk.</p>
+      <div class="toolbar">
+        <button type="button" id="btn-hilite">Highlight unmitigated</button>
+        <button type="button" id="btn-clear">Clear highlights</button>
+      </div>
+      <div class="matrix-wrap">
+        <table class="matrix" id="threat-matrix">
+          <thead>
+            <tr>
+              <th>STRIDE</th>
+              <th>Threat</th>
+              <th>Mitigated?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-mit="0">
+              <td class="stride">S</td>
+              <td>Session token theft → fraudulent checkout</td>
+              <td><label><input type="checkbox" class="mit-cb"> Reviewed</label></td>
+            </tr>
+            <tr data-mit="0">
+              <td class="stride">T</td>
+              <td>Webhook payload tampering (amount, order ID)</td>
+              <td><label><input type="checkbox" class="mit-cb"> Reviewed</label></td>
+            </tr>
+            <tr data-mit="0">
+              <td class="stride">I</td>
+              <td>Secrets or PAN in application logs</td>
+              <td><label><input type="checkbox" class="mit-cb"> Reviewed</label></td>
+            </tr>
+            <tr data-mit="0">
+              <td class="stride">D</td>
+              <td>Inventory hoarding / checkout bots</td>
+              <td><label><input type="checkbox" class="mit-cb"> Reviewed</label></td>
+            </tr>
+            <tr data-mit="0">
+              <td class="stride">E</td>
+              <td>Horizontal privilege: view another user’s orders</td>
+              <td><label><input type="checkbox" class="mit-cb"> Reviewed</label></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Countermeasures</h2>
+      <table class="cm">
+        <thead>
+          <tr><th>Threat</th><th>Countermeasure</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Token replay</td><td>Short-lived tokens, binding to device / step-up for pay</td><td>Pair with anomaly detection on velocity</td></tr>
+          <tr><td>Webhook tamper</td><td>HMAC signatures, idempotency keys, clock skew limits</td><td>Rotate signing secrets; replay window tests</td></tr>
+          <tr><td>Data leakage</td><td>Log scrubbing, PCI logging standards, secret scanning</td><td>Break-glass access audited</td></tr>
+          <tr><td>Checkout DoS</td><td>Rate limits, bot management, queue/token for flash sales</td><td>Autoscale + WAF tuning</td></tr>
+          <tr><td>IDOR on orders</td><td>Server-side authorization on every read; UUID + ownership check</td><td>Integration tests for cross-tenant cases</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+  <script>
+    (function () {
+      var rows = document.querySelectorAll('#threat-matrix tbody tr');
+      function sync() {
+        rows.forEach(function (tr) {
+          var cb = tr.querySelector('.mit-cb');
+          tr.setAttribute('data-mit', cb && cb.checked ? '1' : '0');
+        });
+      }
+      document.querySelectorAll('.mit-cb').forEach(function (cb) {
+        cb.addEventListener('change', sync);
+      });
+      document.getElementById('btn-hilite').addEventListener('click', function () {
+        rows.forEach(function (tr) {
+          tr.classList.toggle('dimmed', tr.getAttribute('data-mit') === '1');
+        });
+      });
+      document.getElementById('btn-clear').addEventListener('click', function () {
+        rows.forEach(function (tr) { tr.classList.remove('dimmed'); });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CIS Controls — Cyber Defense Framework — DevSecOps Interactive Learning</title>
+  <style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+.filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 20px; justify-content: center; }
+.filter-btn { border: 2px solid var(--card-border); background: white; padding: 8px 14px; border-radius: 999px; font-weight: 600; cursor: pointer; color: var(--sec-blue-deep); }
+.filter-btn:hover { background: var(--sec-sky); }
+.filter-btn.active { background: var(--sec-blue); color: white; border-color: var(--sec-blue); }
+.ig-ladder { display: flex; flex-direction: column; gap: 10px; max-width: 520px; margin: 20px auto; }
+.ig-step { border-radius: var(--radius); padding: 16px 20px; text-align: center; font-weight: 700; border: 2px solid var(--card-border); position: relative; }
+.ig-step small { display: block; font-weight: 400; color: var(--muted); margin-top: 6px; font-size: 0.9rem; }
+.ig1 { background: linear-gradient(180deg, #dcfce7, #bbf7d0); color: #14532d; }
+.ig2 { background: linear-gradient(180deg, #fef3c7, #fde68a); color: #78350f; }
+.ig3 { background: linear-gradient(180deg, #e0e7ff, #c7d2fe); color: #312e81; }
+.ig-step::after { content: '↓'; position: absolute; left: 50%; bottom: -22px; transform: translateX(-50%); color: var(--muted); font-size: 1.2rem; }
+.ig-step:last-child::after { display: none; }
+.cis-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 12px; padding: 0 18px 10px; box-shadow: var(--card-shadow); }
+.cis-card summary { list-style: none; padding: 14px 0; }
+.cis-card summary::-webkit-details-marker { display: none; }
+section.card { padding-top: 8px; }
+section.card h2 { margin-top: 0; }
+.cis-section.hidden { display: none; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header class="hero">
+    <a href="index.html" class="home-link">&#8962; Home</a>
+    <h1>CIS Controls &mdash; Cyber Defense Framework</h1>
+    <p class="subtitle">CIS Controls v8: eighteen controls in a learning-oriented IG1 &rarr; IG2 &rarr; IG3 progression</p>
+  </header>
+
+  <div class="card">
+    <h2>Implementation groups (IG)</h2>
+    <p>CIS maps <strong>safeguards</strong> to <strong>IG1</strong> (essential cyber hygiene), <strong>IG2</strong> (foundational for organizations with multiple departments or regulations), and <strong>IG3</strong> (organizational maturity and advanced threats). This page groups the <strong>18 Controls</strong> into three tracks for study; see the official CIS publication for exact safeguard-to-IG mapping.</p>
+    <div class="ig-ladder" aria-hidden="true">
+      <div class="ig-step ig1">IG1 &mdash; Essential <small>Minimum cyber hygiene; stop common attacks first</small></div>
+      <div class="ig-step ig2">IG2 &mdash; Foundational <small>Regulated data, distributed workforce, more complexity</small></div>
+      <div class="ig-step ig3">IG3 &mdash; Organizational <small>Advanced threats, supply chain, adversary emulation</small></div>
+    </div>
+    <p style="text-align:center;color:var(--muted);font-size:0.95rem;">Visual progression: IG1 &rarr; IG2 &rarr; IG3 (cumulative maturity model).</p>
+    <p style="text-align:center;margin-top:8px"><strong>Interactive:</strong> show one implementation group at a time or all.</p>
+    <div class="filter-row" role="tablist" aria-label="Filter by implementation group">
+      <button type="button" class="filter-btn active" data-ig="all" role="tab">All groups</button>
+      <button type="button" class="filter-btn" data-ig="ig1" role="tab">IG1 only</button>
+      <button type="button" class="filter-btn" data-ig="ig2" role="tab">IG2 only</button>
+      <button type="button" class="filter-btn" data-ig="ig3" role="tab">IG3 only</button>
+    </div>
+  </div>
+
+  <section class="card cis-section" data-ig-section="ig1" id="sec-ig1"><h2><span class="tag tag-green">IG1</span> Essential &mdash; Controls 1&ndash;6</h2>
+
+  <details class="cis-card"><summary><strong>CIS 1</strong> &mdash; Inventory and Control of Enterprise Assets</summary>
+  <p>Know what hardware is on your network: laptops, servers, VMs, and IoT.</p>
+  <p><strong>Safeguards (examples):</strong> Active and passive discovery; DHCP logging; block unknown devices on critical VLANs.</p>
+  <p><strong>Implementation guidance:</strong> CMDB plus cloud asset APIs; reconcile weekly; assign owners.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 2</strong> &mdash; Inventory and Control of Software Assets</summary>
+  <p>Authorize only supported software; remove unauthorized installs.</p>
+  <p><strong>Safeguards (examples):</strong> Application allow lists; SBOM for critical applications.</p>
+  <p><strong>Implementation guidance:</strong> Integrate MDM, package repositories, and container registries into one inventory.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 3</strong> &mdash; Data Protection</summary>
+  <p>Classify and protect data by sensitivity using encryption, DLP, and access boundaries.</p>
+  <p><strong>Safeguards (examples):</strong> Encrypt laptops; segment databases; label documents.</p>
+  <p><strong>Implementation guidance:</strong> Data flow diagrams and KMS-backed keys; least-privilege database roles.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 4</strong> &mdash; Secure Configuration of Enterprise Assets and Software</summary>
+  <p>Harden operating systems, middleware, and cloud services; track drift from baseline.</p>
+  <p><strong>Safeguards (examples):</strong> CIS Benchmarks; golden images; configuration management.</p>
+  <p><strong>Implementation guidance:</strong> Automate scans with CSPM or OSConfig; block non-compliant builds in CI.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 5</strong> &mdash; Account Management</summary>
+  <p>Lifecycle human and non-human accounts; disable dormant accounts; shared-account hygiene.</p>
+  <p><strong>Safeguards (examples):</strong> Joiner, mover, leaver automation; access reviews; monitored break-glass accounts.</p>
+  <p><strong>Implementation guidance:</strong> Prefer SSO; no long-lived admin keys in source code.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 6</strong> &mdash; Access Control Management</summary>
+  <p>Grant minimum necessary access; separate administrative duties; monitor privileged use.</p>
+  <p><strong>Safeguards (examples):</strong> RBAC or ABAC; PAM for elevated sessions; just-in-time admin.</p>
+  <p><strong>Implementation guidance:</strong> Map roles to job functions; alert on privilege grants and unusual elevation.</p>
+  </details>
+  </section>
+
+  <section class="card cis-section" data-ig-section="ig2" id="sec-ig2"><h2><span class="tag tag-amber">IG2</span> Foundational &mdash; Controls 7&ndash;12</h2>
+
+  <details class="cis-card"><summary><strong>CIS 7</strong> &mdash; Continuous Vulnerability Management</summary>
+  <p>Scan, prioritize, and remediate CVEs on assets and dependencies.</p>
+  <p><strong>Safeguards (examples):</strong> Authenticated scans on a schedule; SLAs by CVSS; container scan on push.</p>
+  <p><strong>Implementation guidance:</strong> Tie findings to CMDB owners; patch non-production first.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 8</strong> &mdash; Audit Log Management</summary>
+  <p>Collect, protect, and review logs that support detection and forensics.</p>
+  <p><strong>Safeguards (examples):</strong> Central SIEM; reliable time sync; protect integrity of admin logs.</p>
+  <p><strong>Implementation guidance:</strong> Standard event schema; retention policy; test detection rules quarterly.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 9</strong> &mdash; Email and Web Browser Protections</summary>
+  <p>Reduce phishing and drive-by downloads as common initial-access vectors.</p>
+  <p><strong>Safeguards (examples):</strong> DMARC; sandbox attachments; browser isolation where appropriate.</p>
+  <p><strong>Implementation guidance:</strong> User reporting workflow; strip risky attachment types at the gateway.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 10</strong> &mdash; Malware Defenses</summary>
+  <p>Layer antivirus or EDR, execution policy, and application control.</p>
+  <p><strong>Safeguards (examples):</strong> Block unsigned scripts; macro policies; EDR in detect then enforce modes.</p>
+  <p><strong>Implementation guidance:</strong> Tune false positives before full enforcement; maintain offline recovery media.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 11</strong> &mdash; Data Recovery</summary>
+  <p>Backups that are encrypted, tested, and resilient to ransomware.</p>
+  <p><strong>Safeguards (examples):</strong> Immutable backup tier; annual restore drills; separate admin for backup systems.</p>
+  <p><strong>Implementation guidance:</strong> Follow 3-2-1 guidance; use application-consistent snapshots for databases.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 12</strong> &mdash; Network Infrastructure Management</summary>
+  <p>Secure routers, switches, firewalls, and Wi-Fi; document topology.</p>
+  <p><strong>Safeguards (examples):</strong> Disable unused ports; network access control; separate management plane.</p>
+  <p><strong>Implementation guidance:</strong> Infrastructure-as-code for network devices with reviewed golden configs.</p>
+  </details>
+  </section>
+
+  <section class="card cis-section" data-ig-section="ig3" id="sec-ig3"><h2><span class="tag tag-rose">IG3</span> Organizational &mdash; Controls 13&ndash;18</h2>
+
+  <details class="cis-card"><summary><strong>CIS 13</strong> &mdash; Network Monitoring and Defense</summary>
+  <p>IDS and IPS, NetFlow, and behavioral analytics on internal traffic.</p>
+  <p><strong>Safeguards (examples):</strong> Segment sensitive VLANs; detect beaconing; decrypt per policy and law.</p>
+  <p><strong>Implementation guidance:</strong> Purple-team exercises; tune alerts to mean-time-to-respond goals.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 14</strong> &mdash; Security Awareness and Skills Training</summary>
+  <p>Role-based training, phishing simulations, and secure coding for developers.</p>
+  <p><strong>Safeguards (examples):</strong> Annual baseline plus micro-learning; measure improvement in reporting.</p>
+  <p><strong>Implementation guidance:</strong> Align curriculum with internal incident themes (appropriately redacted).</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 15</strong> &mdash; Service Provider Management</summary>
+  <p>Assess vendors that process data or provide critical services.</p>
+  <p><strong>Safeguards (examples):</strong> SOC2 or ISO reports; right-to-audit; fourth-party mapping.</p>
+  <p><strong>Implementation guidance:</strong> Tier vendors by risk; reassess on ownership or breach news.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 16</strong> &mdash; Application Software Security</summary>
+  <p>Secure development lifecycle: requirements, design, testing, and maintenance.</p>
+  <p><strong>Safeguards (examples):</strong> SAST and DAST in CI; threat modeling for major features; dependency updates.</p>
+  <p><strong>Implementation guidance:</strong> Use OWASP ASVS as a checklist; security champions in each team.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 17</strong> &mdash; Incident Response Management</summary>
+  <p>Playbooks, communications, forensic readiness, and post-incident review.</p>
+  <p><strong>Safeguards (examples):</strong> Internal or retainer CSIRT; tabletops; legal and privacy coordination.</p>
+  <p><strong>Implementation guidance:</strong> Integrate runbooks with ticketing; preserve chain of custody for evidence.</p>
+  </details>
+
+  <details class="cis-card"><summary><strong>CIS 18</strong> &mdash; Penetration Testing</summary>
+  <p>Controlled offensive tests to validate detective and preventive controls.</p>
+  <p><strong>Safeguards (examples):</strong> Scope covers external, internal, and cloud; validation retest after fixes.</p>
+  <p><strong>Implementation guidance:</strong> Align tests to the threat model; separate rules of engagement for prod.</p>
+  </details>
+  </section>
+
+  <div class="card">
+    <h2>Official reference</h2>
+    <p>Download the current <strong>CIS Controls</strong> guide from CIS for authoritative safeguard numbering, IG mapping, and assessment tools. This page is a study companion, not a replacement for the full publication.</p>
+  </div>
+</div>
+<script>
+(function () {
+  document.querySelectorAll('.filter-btn[data-ig]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var ig = btn.getAttribute('data-ig');
+      document.querySelectorAll('.filter-btn[data-ig]').forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      document.querySelectorAll('.cis-section[data-ig-section]').forEach(function (sec) {
+        var id = sec.getAttribute('data-ig-section');
+        var show = ig === 'all' || id === ig;
+        sec.classList.toggle('hidden', !show);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

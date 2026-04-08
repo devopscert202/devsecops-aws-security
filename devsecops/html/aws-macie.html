@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amazon Macie — DevSecOps Interactive Learning</title>
+<style>
+:root {
+  --sec-blue: #326ce5;
+  --sec-blue-deep: #1a4bc6;
+  --sec-sky: #e8f0fe;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(50,108,229,0.10);
+  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
+  --radius: 14px;
+  --green: #16a34a;
+  --amber: #d97706;
+  --rose: #e11d48;
+}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
+.container { max-width: 1100px; margin: 0 auto; }
+header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
+h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
+.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
+.home-link:hover { color: var(--sec-blue-deep); }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.card h2 { color: var(--sec-blue); margin-top: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
+pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
+td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+tr:hover { background: var(--sec-sky); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.tag-green { background: #dcfce7; color: var(--green); }
+.tag-amber { background: #fef3c7; color: var(--amber); }
+.tag-rose { background: #ffe4e6; color: var(--rose); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+<header class="hero">
+<a href="index.html" class="home-link">&#8962; Home</a>
+<h1>Amazon Macie &mdash; Sensitive Data Discovery</h1>
+<p class="subtitle">Machine learning&ndash;assisted discovery of sensitive data in Amazon S3</p>
+</header>
+
+<div class="card">
+<h2>What is Macie?</h2>
+<p><strong>Amazon Macie</strong> is a data security and privacy service that uses <strong>machine learning</strong> and pattern matching to discover and protect <strong>sensitive data</strong> stored in <strong>Amazon S3</strong>. It helps teams find buckets that are overly exposed, classify objects that may contain PII/PHI/financial data, and generate findings for governance workflows.</p>
+</div>
+
+<div class="grid">
+<div class="card">
+<h2>Machine learning for PII / PHI detection</h2>
+<p>Macie combines <strong>managed data identifiers</strong> (built-in detectors for many global identifier types) with <strong>custom data identifiers</strong> (regex + optional keywords) tuned to your business. ML-assisted models improve recall/precision on semi-structured and unstructured content such as logs, exports, and documents.</p>
+<ul>
+<li>Examples of categories: government IDs, credit card numbers, credentials, health information (region and feature dependent).</li>
+<li>Findings include <strong>location</strong> (bucket, object), <strong>severity</strong>, and <strong>sample evidence</strong> metadata appropriate for analyst review.</li>
+</ul>
+</div>
+<div class="card">
+<h2>S3 bucket inventory</h2>
+<p>Macie maintains an <strong>inventory</strong> of buckets and evaluates their security and privacy posture: public access settings, encryption defaults, sharing, and policy conditions. Use this inventory to drive <strong>data perimeter</strong> projects and to prioritize scans for high-value buckets.</p>
+</div>
+</div>
+
+<div class="card">
+<h2>Finding types (representative)</h2>
+<table>
+<thead><tr><th>Type</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>Policy / access</td><td>Bucket becomes public, ACL changes, risky cross-account access.</td></tr>
+<tr><td>Sensitive data</td><td>Objects matching PII/PHI/financial or custom identifiers.</td></tr>
+<tr><td>Anomalies</td><td>Unusual data volume or access patterns (where enabled).</td></tr>
+<tr><td>Encryption</td><td>Objects stored without expected encryption context.</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="grid">
+<div class="card">
+<h2>Alerting and automation</h2>
+<p>Send Macie findings to <strong>Amazon EventBridge</strong> for SNS, Slack, Jira, or <strong>Lambda</strong>-driven response: tighten bucket policies, trigger object tagging, or open a governance ticket. Pair with <strong>Step Functions</strong> for human-in-the-loop approvals before remediation.</p>
+</div>
+<div class="card">
+<h2>Integration with AWS Security Hub</h2>
+<p>Macie integrates with <strong>Security Hub</strong> so sensitive-data and policy findings appear beside GuardDuty and Config results. Security teams can build a single severity-ranked queue and track mean-time-to-remediate for data exposure classes.</p>
+</div>
+</div>
+
+<div class="card">
+<h2>Use cases</h2>
+<ul>
+<li><strong>Compliance</strong> &mdash; Evidence for GDPR, HIPAA, PCI-DSS, and internal policies requiring data location and access controls.</li>
+<li><strong>Data governance</strong> &mdash; Catalog where customer data lives; enforce retention and classification labels downstream.</li>
+<li><strong>Incident readiness</strong> &mdash; Reduce unknown shadow data before a breach; shrink blast radius of misconfigured buckets.</li>
+<li><strong>DevSecOps</strong> &mdash; Gate pipelines that publish artifacts or backups to S3; fail builds when new high-sensitivity objects land in non-approved buckets.</li>
+</ul>
+</div>
+
+</div>
+</body>
+</html>
