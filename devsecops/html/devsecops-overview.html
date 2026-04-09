@@ -3,167 +3,602 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>What Is DevSecOps? — DevSecOps Interactive Learning</title>
+  <title>What Is DevSecOps? — Interactive Explainer</title>
   <style>
-:root {
-  --sec-blue: #326ce5;
-  --sec-blue-deep: #1a4bc6;
-  --sec-sky: #e8f0fe;
-  --ink: #0f172a;
-  --muted: #64748b;
-  --surface: #f8fafc;
-  --card-bg: #ffffff;
-  --card-border: rgba(50,108,229,0.10);
-  --card-shadow: 0 4px 18px rgba(15,23,42,0.08);
-  --radius: 14px;
-  --green: #16a34a;
-  --amber: #d97706;
-  --rose: #e11d48;
-}
-body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--ink); margin: 0; padding: 20px; line-height: 1.7; }
-.container { max-width: 1100px; margin: 0 auto; }
-header.hero { background: white; border-radius: 16px; padding: 34px 32px 28px; box-shadow: var(--card-shadow); margin-bottom: 26px; border: 1px solid var(--card-border); text-align: center; position: relative; }
-h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--sec-blue); margin: 0 0 8px; }
-.subtitle { color: var(--muted); font-size: 1.1rem; margin: 0; }
-.home-link { position: absolute; top: 18px; right: 24px; color: var(--sec-blue); text-decoration: none; font-size: 1.3rem; font-weight: 600; }
-.home-link:hover { color: var(--sec-blue-deep); }
-.card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
-.card h2 { color: var(--sec-blue); margin-top: 0; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 20px; margin-bottom: 20px; }
-@media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
-pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 10px; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9rem; }
-code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
-th { background: var(--sec-sky); color: var(--sec-blue-deep); padding: 10px 14px; text-align: left; font-weight: 700; }
-td { padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
-tr:hover { background: var(--sec-sky); }
-.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
-.tag-green { background: #dcfce7; color: var(--green); }
-.tag-amber { background: #fef3c7; color: var(--amber); }
-.tag-rose { background: #ffe4e6; color: var(--rose); }
-details { margin: 8px 0; }
-summary { cursor: pointer; font-weight: 600; color: var(--sec-blue); padding: 8px 0; }
-.diagram-wrap { background: var(--sec-sky); border-radius: var(--radius); padding: 20px; margin: 16px 0; overflow-x: auto; }
-.diagram-wrap svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
-.shift-track { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; margin: 16px 0; }
-.shift-step { flex: 1 1 120px; background: white; border: 2px solid var(--sec-blue); border-radius: 10px; padding: 14px; text-align: center; font-weight: 600; font-size: 0.9rem; }
-.shift-step.sec { background: linear-gradient(135deg, #fef3c7, #fff); border-color: var(--amber); }
-.shift-arrow { align-self: center; font-size: 1.4rem; color: var(--sec-blue); }
-.benefit-icon { font-size: 1.6rem; margin-bottom: 8px; }
-.tool-cat { border-left: 4px solid var(--sec-blue); padding-left: 14px; margin: 12px 0; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --blue:#326ce5;--blue-deep:#1d4ed8;--blue-sky:#dbeafe;--blue-glow:rgba(50,108,229,0.12);
+      --ink:#0f172a;--muted:#64748b;--slate:#475569;
+      --surface:#f8fafc;--panel:#ffffff;--line:#e2e8f0;
+      --mint:#dcfce7;--amber-bg:#fef3c7;--rose-bg:#ffe4e6;--purple-bg:#ede9fe;
+      --green:#16a34a;--amber:#d97706;--rose:#e11d48;--purple:#7c3aed;--teal:#0d9488;
+      --radius:16px;
+    }
+    body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:linear-gradient(180deg,#f8fbff 0%,#eef4fb 100%);color:var(--ink);line-height:1.6;padding:20px;min-height:100vh}
+    .container{max-width:1200px;margin:0 auto}
+
+    /* Hero */
+    .hero{position:relative;text-align:center;background:white;border-radius:var(--radius);padding:36px 32px 28px;box-shadow:0 4px 18px rgba(15,23,42,0.07);margin-bottom:26px;border:1px solid var(--blue-glow)}
+    .hero::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--radius) var(--radius) 0 0;background:linear-gradient(90deg,var(--blue),var(--purple),var(--teal),var(--green))}
+    h1{font-size:clamp(1.8rem,4vw,2.8rem);color:var(--blue);margin-bottom:8px;line-height:1.15}
+    .subtitle{color:var(--muted);font-size:1.05rem;max-width:780px;margin:0 auto 16px}
+    .home-link{position:absolute;top:16px;right:20px;color:var(--blue);text-decoration:none;font-size:0.88rem;font-weight:600;padding:6px 14px;border-radius:8px;border:1.5px solid var(--blue-glow);transition:all .2s}
+    .home-link:hover{background:var(--blue);color:white}
+
+    /* Tab Controls */
+    .controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:0 0 24px}
+    .btn{border:2px solid var(--blue);background:white;color:var(--blue-deep);padding:10px 20px;border-radius:10px;font-weight:700;font-size:0.88rem;cursor:pointer;transition:all .2s;font-family:inherit}
+    .btn:hover,.btn.active{background:var(--blue);color:white;box-shadow:0 4px 14px rgba(50,108,229,0.3);transform:translateY(-2px)}
+
+    /* Views */
+    .view{display:none;background:var(--panel);border-radius:var(--radius);box-shadow:0 2px 10px rgba(0,0,0,0.06);padding:28px;margin-bottom:24px;border:1px solid var(--line);animation:fadeIn .3s ease}
+    .view.active{display:block}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+    /* Section headers */
+    .section-head{display:flex;justify-content:space-between;gap:16px;align-items:end;flex-wrap:wrap;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{color:var(--ink);font-size:1.35rem}
+    .section-kicker{color:var(--blue-deep);text-transform:uppercase;font-size:0.72rem;font-weight:800;letter-spacing:.1em;margin-bottom:8px}
+
+    /* Concept Cards Grid */
+    .concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+    .card{background:linear-gradient(180deg,#ffffff,#f8fbff);border:1px solid var(--line);border-top:4px solid var(--blue);border-radius:var(--radius);padding:20px;box-shadow:0 4px 14px rgba(15,23,42,0.04);transition:transform .2s,box-shadow .2s}
+    .card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(15,23,42,0.1)}
+    .card-badge{display:inline-flex;padding:5px 12px;border-radius:999px;background:var(--blue-sky);color:var(--blue-deep);font-weight:700;font-size:0.8rem;margin-bottom:12px}
+    .card h3{font-size:1rem;margin-bottom:8px;color:var(--ink)}
+    .card p,.card li{color:var(--slate);font-size:0.92rem}
+    .card ul{padding-left:18px;margin-top:6px}
+    .card li{margin-bottom:4px}
+    .card.green{border-top-color:var(--green)}
+    .card.green .card-badge{background:var(--mint);color:#166534}
+    .card.amber{border-top-color:var(--amber)}
+    .card.amber .card-badge{background:var(--amber-bg);color:#92400e}
+    .card.purple{border-top-color:var(--purple)}
+    .card.purple .card-badge{background:var(--purple-bg);color:#5b21b6}
+    .card.rose{border-top-color:var(--rose)}
+    .card.rose .card-badge{background:var(--rose-bg);color:#9f1239}
+
+    /* SVG Diagram */
+    .diagram-wrap{background:linear-gradient(180deg,#f0f5ff,#e8f0fe);border-radius:var(--radius);padding:24px;margin:16px 0;border:1px solid var(--blue-glow);text-align:center}
+    .diagram-wrap svg{display:block;margin:0 auto;max-width:100%;height:auto}
+
+    /* Interactive Pipeline */
+    .pipeline-interactive{display:flex;align-items:stretch;gap:0;margin:20px 0;flex-wrap:wrap;justify-content:center}
+    .pipe-stage{flex:1;min-width:110px;max-width:140px;background:white;border:2px solid var(--line);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .25s;position:relative}
+    .pipe-stage:hover,.pipe-stage.active{border-color:var(--blue);background:var(--blue-sky);box-shadow:0 4px 16px rgba(50,108,229,0.15);transform:translateY(-4px)}
+    .pipe-stage .stage-icon{width:40px;height:40px;border-radius:12px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:white;font-weight:800}
+    .pipe-stage .stage-label{font-size:0.82rem;font-weight:700;color:var(--ink)}
+    .pipe-stage .stage-sec{font-size:0.68rem;color:var(--muted);margin-top:2px}
+    .pipe-arrow{display:flex;align-items:center;color:#cbd5e1;font-size:1.2rem;padding:0 2px}
+    .pipe-detail{background:var(--blue-sky);border:1px solid var(--blue-glow);border-radius:12px;padding:18px 22px;margin-top:16px;display:none;animation:fadeIn .25s}
+    .pipe-detail.active{display:block}
+    .pipe-detail h4{color:var(--blue-deep);margin-bottom:6px;font-size:1rem}
+    .pipe-detail p{color:var(--slate);font-size:0.9rem}
+    .pipe-detail ul{padding-left:18px;margin-top:6px}
+    .pipe-detail li{color:var(--slate);font-size:0.88rem;margin-bottom:3px}
+
+    /* Shift-left track */
+    .shift-track{display:flex;align-items:stretch;gap:0;margin:20px 0;flex-wrap:wrap;justify-content:center}
+    .shift-step{flex:1;min-width:100px;max-width:150px;border:2px solid var(--line);border-radius:12px;padding:16px 10px;text-align:center;transition:all .25s;cursor:default}
+    .shift-step:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,0.08)}
+    .shift-step .cost-bar{height:6px;border-radius:3px;margin-top:10px;transition:width .5s}
+    .shift-arrow{display:flex;align-items:center;font-size:1.2rem;color:#cbd5e1;padding:0 4px}
+
+    /* Comparison table */
+    .table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--line);background:white}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;font-size:0.92rem}
+    th{background:linear-gradient(180deg,var(--blue),#2557be);color:white;font-weight:700}
+    tbody tr:nth-child(even){background:#f8fbff}
+    tbody tr:hover{background:var(--blue-sky)}
+    td .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:0.75rem;font-weight:600}
+    .tag-green{background:var(--mint);color:var(--green)}
+    .tag-rose{background:var(--rose-bg);color:var(--rose)}
+
+    /* Tool cards */
+    .tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+    .tool-card{background:white;border:1px solid var(--line);border-radius:12px;padding:16px;transition:all .2s}
+    .tool-card:hover{border-color:var(--blue);box-shadow:0 4px 14px rgba(50,108,229,0.1);transform:translateY(-2px)}
+    .tool-card h4{font-size:0.9rem;color:var(--blue-deep);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+    .tool-card p{color:var(--slate);font-size:0.82rem}
+    .tool-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+    /* Quiz */
+    .quiz-box{background:linear-gradient(135deg,#ede9fe,#dbeafe);border-radius:var(--radius);padding:24px;margin-top:20px;border:1px solid var(--blue-glow)}
+    .quiz-box h3{color:var(--blue-deep);margin-bottom:12px}
+    .quiz-q{margin-bottom:16px}
+    .quiz-q p{font-weight:600;margin-bottom:8px;color:var(--ink)}
+    .quiz-opt{display:block;padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:6px;cursor:pointer;transition:all .2s;background:white;font-size:0.88rem;color:var(--ink)}
+    .quiz-opt:hover{border-color:var(--blue);background:#f0f5ff}
+    .quiz-opt.correct{border-color:var(--green);background:var(--mint);color:#166534}
+    .quiz-opt.wrong{border-color:var(--rose);background:var(--rose-bg);color:#9f1239}
+    .quiz-feedback{font-size:0.85rem;margin-top:4px;font-weight:600;display:none}
+
+    /* Note callout */
+    .note{border-left:4px solid var(--blue);background:#eff6ff;color:#1e3a8a;padding:14px 18px;border-radius:0 12px 12px 0;margin:16px 0;font-size:0.92rem}
+
+    @media(max-width:700px){
+      body{padding:14px}
+      .concept-grid,.tool-grid{grid-template-columns:1fr}
+      .pipeline-interactive{flex-direction:column;align-items:center}
+      .pipe-arrow{transform:rotate(90deg)}
+      .pipe-stage{max-width:100%;min-width:auto}
+      .shift-track{flex-direction:column;align-items:center}
+      .shift-arrow{transform:rotate(90deg)}
+      .shift-step{max-width:100%;min-width:auto}
+      .controls{justify-content:flex-start}
+    }
   </style>
 </head>
 <body>
 <div class="container">
+
+  <!-- Hero -->
   <header class="hero">
     <a href="index.html" class="home-link">&#8962; Home</a>
     <h1>What Is DevSecOps?</h1>
     <p class="subtitle">Security owned by everyone, automated in the pipeline, and measured like any other quality attribute.</p>
   </header>
 
-  <div class="card">
-    <h2>Definition</h2>
-    <p><strong>DevSecOps</strong> extends DevOps by baking security practices into every phase of the software lifecycle: planning, coding, building, testing, releasing, deploying, operating, and monitoring. Instead of a late-stage gate, security becomes continuous feedback—policy as code, automated scans, threat modeling, and rapid remediation.</p>
+  <!-- Tab Controls -->
+  <div class="controls" role="tablist">
+    <button class="btn active" onclick="showView('overview')" role="tab">Overview</button>
+    <button class="btn" onclick="showView('pipeline')" role="tab">Pipeline Cycle</button>
+    <button class="btn" onclick="showView('shiftleft')" role="tab">Shift-Left</button>
+    <button class="btn" onclick="showView('comparison')" role="tab">DevOps vs DevSecOps</button>
+    <button class="btn" onclick="showView('tools')" role="tab">Tools</button>
+    <button class="btn" onclick="showView('quiz')" role="tab">Self-Check</button>
   </div>
 
-  <div class="card">
-    <h2>Security in the Dev + Ops cycle</h2>
-    <p class="subtitle" style="margin-bottom:12px;">Security is not a separate ring—it reinforces each step of the infinite loop.</p>
-    <div class="diagram-wrap" aria-label="DevSecOps cycle diagram">
-      <svg viewBox="0 0 520 320" width="520" height="320" role="img">
-        <title>DevSecOps: security integrated in Dev and Ops cycle</title>
-        <defs>
-          <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#326ce5;stop-opacity:0.15"/>
-            <stop offset="100%" style="stop-color:#1a4bc6;stop-opacity:0.08"/>
-          </linearGradient>
-          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-            <path d="M0,0 L8,4 L0,8 z" fill="#326ce5"/>
-          </marker>
-        </defs>
-        <ellipse cx="260" cy="160" rx="200" ry="118" fill="url(#g1)" stroke="#326ce5" stroke-width="2" stroke-dasharray="8 6"/>
-        <text x="260" y="38" text-anchor="middle" fill="#1a4bc6" font-size="14" font-weight="700">Plan → Code → Build → Test</text>
-        <text x="260" y="288" text-anchor="middle" fill="#1a4bc6" font-size="14" font-weight="700">Release → Deploy → Operate → Monitor</text>
-        <circle cx="260" cy="160" r="52" fill="#fff" stroke="#326ce5" stroke-width="3"/>
-        <text x="260" y="155" text-anchor="middle" fill="#326ce5" font-size="13" font-weight="800">SECURITY</text>
-        <text x="260" y="172" text-anchor="middle" fill="#64748b" font-size="10">shift-left +</text>
-        <text x="260" y="186" text-anchor="middle" fill="#64748b" font-size="10">continuous</text>
-        <path d="M 260 108 A 90 90 0 0 1 350 160" fill="none" stroke="#326ce5" stroke-width="3" marker-end="url(#arr)"/>
-        <path d="M 350 160 A 90 90 0 0 1 260 212" fill="none" stroke="#326ce5" stroke-width="3" marker-end="url(#arr)"/>
-        <path d="M 260 212 A 90 90 0 0 1 170 160" fill="none" stroke="#326ce5" stroke-width="3" marker-end="url(#arr)"/>
-        <path d="M 170 160 A 90 90 0 0 1 260 108" fill="none" stroke="#326ce5" stroke-width="3" marker-end="url(#arr)"/>
-        <text x="95" y="100" fill="#0f172a" font-size="11" font-weight="600">Threat models</text>
-        <text x="95" y="118" fill="#64748b" font-size="10">Secure design</text>
-        <text x="360" y="100" fill="#0f172a" font-size="11" font-weight="600">SAST / secrets</text>
-        <text x="360" y="118" fill="#64748b" font-size="10">in CI</text>
-        <text x="360" y="210" fill="#0f172a" font-size="11" font-weight="600">DAST / IAST</text>
-        <text x="360" y="228" fill="#64748b" font-size="10">in test env</text>
-        <text x="85" y="210" fill="#0f172a" font-size="11" font-weight="600">Runtime</text>
-        <text x="85" y="228" fill="#64748b" font-size="10">CSPM, SIEM</text>
-      </svg>
+  <!-- ============ VIEW 1: Overview ============ -->
+  <section id="view-overview" class="view active">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Fundamentals</div>
+        <h2>DevSecOps at a Glance</h2>
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <h2>DevOps vs DevSecOps</h2>
-    <table>
-      <thead><tr><th>Dimension</th><th>Classic DevOps</th><th>DevSecOps</th></tr></thead>
-      <tbody>
-        <tr><td>Security timing</td><td>Often late (pre-prod or audit)</td><td>Continuous, starting in design</td></tr>
-        <tr><td>Ownership</td><td>Security team as gatekeeper</td><td>Shared: devs, ops, security</td></tr>
-        <tr><td>Automation</td><td>Build, deploy, monitor</td><td>+ policy, scans, compliance checks</td></tr>
-        <tr><td>Feedback</td><td>Velocity, availability</td><td>+ risk, CVEs, misconfigurations</td></tr>
-        <tr><td>Culture</td><td>“You build it, you run it”</td><td>“You secure it as you build &amp; run it”</td></tr>
-      </tbody>
-    </table>
-  </div>
+    <p style="color:var(--slate);margin-bottom:20px;">
+      <strong>DevSecOps</strong> extends DevOps by integrating security practices into every phase of the software lifecycle.
+      Instead of a late-stage gate, security becomes continuous feedback — policy as code, automated scans, threat modeling, and rapid remediation.
+    </p>
 
-  <div class="card">
-    <h2>Shift-left: catch issues earlier</h2>
-    <p>Moving security activities earlier reduces cost and blast radius. The further right a defect is found, the more expensive it is to fix.</p>
-    <div class="shift-track" role="list">
-      <div class="shift-step" role="listitem">Design<br><span class="tag tag-green" style="margin-top:8px;display:inline-block;">cheap fix</span></div>
-      <span class="shift-arrow" aria-hidden="true">→</span>
-      <div class="shift-step" role="listitem">Code</div>
-      <span class="shift-arrow" aria-hidden="true">→</span>
-      <div class="shift-step sec" role="listitem">CI scan</div>
-      <span class="shift-arrow" aria-hidden="true">→</span>
-      <div class="shift-step" role="listitem">Staging</div>
-      <span class="shift-arrow" aria-hidden="true">→</span>
-      <div class="shift-step" role="listitem">Prod<br><span class="tag tag-rose" style="margin-top:8px;display:inline-block;">costly</span></div>
+    <div class="concept-grid">
+      <div class="card">
+        <div class="card-badge">What</div>
+        <h3>Definition</h3>
+        <p>The practice of baking security into planning, coding, building, testing, releasing, deploying, operating, and monitoring — making it everyone's responsibility.</p>
+      </div>
+      <div class="card green">
+        <div class="card-badge">Why</div>
+        <h3>Benefits</h3>
+        <ul>
+          <li>Faster mean time to remediate (MTTR)</li>
+          <li>Fewer emergency patches and fire drills</li>
+          <li>Clear traceability: policy → code → runtime</li>
+          <li>Audit-ready compliance evidence</li>
+        </ul>
+      </div>
+      <div class="card purple">
+        <div class="card-badge">Culture</div>
+        <h3>Shared Ownership</h3>
+        <p>Security is not a separate team's job. Developers, operations, and security engineers collaborate from day one — "you secure it as you build and run it."</p>
+      </div>
+      <div class="card amber">
+        <div class="card-badge">Outcomes</div>
+        <h3>What You Get</h3>
+        <ul>
+          <li>Secure defaults in templates and golden paths</li>
+          <li>Automated blocking of critical CVEs and secrets</li>
+          <li>Continuous visibility into cloud and app risk</li>
+          <li>Reduced cost of fixing security issues</li>
+        </ul>
+      </div>
     </div>
-  </div>
 
-  <div class="grid">
-    <div class="card" style="margin-bottom:0;">
-      <h2 style="display:flex;align-items:center;gap:10px;"><span class="benefit-icon" aria-hidden="true">&#9889;</span> Benefits</h2>
+    <div class="note" style="margin-top:20px;">
+      <strong>Key Insight:</strong> DevSecOps is not a tool — it is a culture shift. Tools automate the practice, but the mindset of shared security ownership is what makes it work.
+    </div>
+  </section>
+
+  <!-- ============ VIEW 2: Pipeline Cycle ============ -->
+  <section id="view-pipeline" class="view">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Continuous Security</div>
+        <h2>The DevSecOps Pipeline</h2>
+      </div>
+    </div>
+    <p style="color:var(--slate);margin-bottom:16px;">Click any stage to see the security activities that happen there.</p>
+
+    <div class="pipeline-interactive">
+      <div class="pipe-stage" onclick="showStage(0)" id="stage-0">
+        <div class="stage-icon" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">P</div>
+        <div class="stage-label">Plan</div>
+        <div class="stage-sec">Threat Model</div>
+      </div>
+      <div class="pipe-arrow">&#9654;</div>
+      <div class="pipe-stage" onclick="showStage(1)" id="stage-1">
+        <div class="stage-icon" style="background:linear-gradient(135deg,#3b82f6,#2563eb)">C</div>
+        <div class="stage-label">Code</div>
+        <div class="stage-sec">Secure Code</div>
+      </div>
+      <div class="pipe-arrow">&#9654;</div>
+      <div class="pipe-stage" onclick="showStage(2)" id="stage-2">
+        <div class="stage-icon" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">B</div>
+        <div class="stage-label">Build</div>
+        <div class="stage-sec">SCA</div>
+      </div>
+      <div class="pipe-arrow">&#9654;</div>
+      <div class="pipe-stage" onclick="showStage(3)" id="stage-3">
+        <div class="stage-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706)">T</div>
+        <div class="stage-label">Test</div>
+        <div class="stage-sec">SAST / DAST</div>
+      </div>
+      <div class="pipe-arrow">&#9654;</div>
+      <div class="pipe-stage" onclick="showStage(4)" id="stage-4">
+        <div class="stage-icon" style="background:linear-gradient(135deg,#10b981,#059669)">R</div>
+        <div class="stage-label">Release</div>
+        <div class="stage-sec">Sign / Verify</div>
+      </div>
+      <div class="pipe-arrow">&#9654;</div>
+      <div class="pipe-stage" onclick="showStage(5)" id="stage-5">
+        <div class="stage-icon" style="background:linear-gradient(135deg,#06b6d4,#0891b2)">D</div>
+        <div class="stage-label">Deploy</div>
+        <div class="stage-sec">IAM / EKS</div>
+      </div>
+      <div class="pipe-arrow">&#9654;</div>
+      <div class="pipe-stage" onclick="showStage(6)" id="stage-6">
+        <div class="stage-icon" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">O</div>
+        <div class="stage-label">Operate</div>
+        <div class="stage-sec">Security Hub</div>
+      </div>
+      <div class="pipe-arrow">&#9654;</div>
+      <div class="pipe-stage" onclick="showStage(7)" id="stage-7">
+        <div class="stage-icon" style="background:linear-gradient(135deg,#ec4899,#db2777)">M</div>
+        <div class="stage-label">Monitor</div>
+        <div class="stage-sec">CloudTrail</div>
+      </div>
+    </div>
+
+    <div class="pipe-detail" id="detail-0">
+      <h4>Plan — Threat Modeling</h4>
+      <p>Security starts before a single line of code is written.</p>
       <ul>
-        <li>Faster mean time to remediate (MTTR) for vulnerabilities</li>
-        <li>Fewer emergency patches and fire drills</li>
-        <li>Clear traceability from policy → code → runtime</li>
-        <li>Better alignment with compliance (audit-ready evidence)</li>
+        <li>Identify assets, entry points, and trust boundaries</li>
+        <li>Apply STRIDE, DREAD, or PASTA frameworks</li>
+        <li>Document threats and countermeasures in the backlog</li>
+        <li>Define security requirements alongside functional requirements</li>
       </ul>
     </div>
-    <div class="card" style="margin-bottom:0;">
-      <h2 style="display:flex;align-items:center;gap:10px;"><span class="benefit-icon" aria-hidden="true">&#128273;</span> Outcomes</h2>
+    <div class="pipe-detail" id="detail-1">
+      <h4>Code — Secure Development</h4>
+      <p>Prevent vulnerabilities at the source.</p>
       <ul>
-        <li>Secure defaults in templates and golden paths</li>
-        <li>Automated blocking of critical CVEs and secrets</li>
-        <li>Continuous visibility into cloud and app risk</li>
+        <li>Pre-commit hooks to catch secrets (git-secrets, Gitleaks)</li>
+        <li>IDE security plugins for real-time feedback</li>
+        <li>Secure coding guidelines and code review checklists</li>
+        <li>Input validation and output encoding patterns</li>
       </ul>
     </div>
-  </div>
+    <div class="pipe-detail" id="detail-2">
+      <h4>Build — Software Composition Analysis</h4>
+      <p>Know what's in your dependencies.</p>
+      <ul>
+        <li>SCA scans for known CVEs in open-source libraries</li>
+        <li>License compliance checks</li>
+        <li>SBOM (Software Bill of Materials) generation</li>
+        <li>Tools: OWASP Dependency-Check, Snyk, npm audit</li>
+      </ul>
+    </div>
+    <div class="pipe-detail" id="detail-3">
+      <h4>Test — SAST &amp; DAST</h4>
+      <p>Automated security testing in CI/CD.</p>
+      <ul>
+        <li><strong>SAST</strong> — scan source code without executing (Semgrep, SonarQube)</li>
+        <li><strong>DAST</strong> — test running applications (OWASP ZAP, Burp Suite)</li>
+        <li>Break the build on critical/high severity findings</li>
+        <li>Generate SARIF reports for tracking</li>
+      </ul>
+    </div>
+    <div class="pipe-detail" id="detail-4">
+      <h4>Release — Sign &amp; Verify</h4>
+      <p>Ensure artifact integrity before deployment.</p>
+      <ul>
+        <li>Container image signing (Cosign, Notary)</li>
+        <li>Artifact checksum verification</li>
+        <li>Compliance gate: all critical findings resolved</li>
+        <li>Approval workflows for production releases</li>
+      </ul>
+    </div>
+    <div class="pipe-detail" id="detail-5">
+      <h4>Deploy — IAM &amp; Infrastructure</h4>
+      <p>Secure the deployment environment.</p>
+      <ul>
+        <li>IAM roles with least privilege</li>
+        <li>Private EKS endpoints, encrypted storage</li>
+        <li>Infrastructure as Code (IaC) scanning with Checkov, tfsec</li>
+        <li>Network policies and security groups</li>
+      </ul>
+    </div>
+    <div class="pipe-detail" id="detail-6">
+      <h4>Operate — Continuous Compliance</h4>
+      <p>Monitor security posture in real time.</p>
+      <ul>
+        <li>AWS Security Hub for centralized findings</li>
+        <li>CIS Benchmark and PCI-DSS compliance checks</li>
+        <li>Auto-remediation with AWS Config rules</li>
+        <li>Runtime protection with WAF and Shield</li>
+      </ul>
+    </div>
+    <div class="pipe-detail" id="detail-7">
+      <h4>Monitor — Audit &amp; Respond</h4>
+      <p>Detect, investigate, and respond to threats.</p>
+      <ul>
+        <li>AWS CloudTrail for API audit logging</li>
+        <li>GuardDuty for intelligent threat detection</li>
+        <li>SIEM integration for event correlation</li>
+        <li>Incident response playbooks</li>
+      </ul>
+    </div>
 
-  <div class="card">
-    <h2>Key tools by category</h2>
-    <div class="tool-cat"><strong>Pre-commit / secrets:</strong> git-secrets, Gitleaks, TruffleHog</div>
-    <div class="tool-cat"><strong>SAST / quality:</strong> Semgrep, SonarQube, Checkmarx, Fortify</div>
-    <div class="tool-cat"><strong>SCA:</strong> Snyk, OWASP Dependency-Check, npm audit</div>
-    <div class="tool-cat"><strong>DAST / API:</strong> OWASP ZAP, Burp, commercial DAST</div>
-    <div class="tool-cat"><strong>Infrastructure:</strong> Checkov, tfsec, Prowler, CSPM suites</div>
-    <div class="tool-cat"><strong>Runtime / K8s:</strong> Falco, Kyverno, OPA/Gatekeeper</div>
-    <p style="margin-top:14px;color:var(--muted);font-size:0.95rem;">Pick tools that match your stack; integrate results into the same backlog and SLAs as functional bugs.</p>
-  </div>
+    <div class="note">
+      <strong>Continuous Loop:</strong> The pipeline is not linear — Monitor feeds back into Plan. Every incident or finding becomes a threat model update, closing the loop.
+    </div>
+  </section>
+
+  <!-- ============ VIEW 3: Shift-Left ============ -->
+  <section id="view-shiftleft" class="view">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Cost Reduction</div>
+        <h2>Shift-Left: Catch Issues Earlier</h2>
+      </div>
+    </div>
+    <p style="color:var(--slate);margin-bottom:16px;">The further right a defect is discovered, the more expensive it is to fix. Shifting security left reduces cost and blast radius dramatically.</p>
+
+    <div class="shift-track">
+      <div class="shift-step" style="border-color:#16a34a;">
+        <div style="font-weight:700;font-size:0.9rem;">Design</div>
+        <div style="font-size:0.75rem;color:var(--muted)">~$100</div>
+        <div class="cost-bar" style="width:10%;background:var(--green);height:6px;border-radius:3px;margin-top:8px"></div>
+      </div>
+      <div class="shift-arrow">&#9654;</div>
+      <div class="shift-step" style="border-color:#3b82f6;">
+        <div style="font-weight:700;font-size:0.9rem;">Code</div>
+        <div style="font-size:0.75rem;color:var(--muted)">~$500</div>
+        <div class="cost-bar" style="width:25%;background:#3b82f6;height:6px;border-radius:3px;margin-top:8px"></div>
+      </div>
+      <div class="shift-arrow">&#9654;</div>
+      <div class="shift-step" style="border-color:#f59e0b;">
+        <div style="font-weight:700;font-size:0.9rem;">CI/Test</div>
+        <div style="font-size:0.75rem;color:var(--muted)">~$2,000</div>
+        <div class="cost-bar" style="width:45%;background:#f59e0b;height:6px;border-radius:3px;margin-top:8px"></div>
+      </div>
+      <div class="shift-arrow">&#9654;</div>
+      <div class="shift-step" style="border-color:#f97316;">
+        <div style="font-weight:700;font-size:0.9rem;">Staging</div>
+        <div style="font-size:0.75rem;color:var(--muted)">~$8,000</div>
+        <div class="cost-bar" style="width:70%;background:#f97316;height:6px;border-radius:3px;margin-top:8px"></div>
+      </div>
+      <div class="shift-arrow">&#9654;</div>
+      <div class="shift-step" style="border-color:var(--rose);">
+        <div style="font-weight:700;font-size:0.9rem;">Production</div>
+        <div style="font-size:0.75rem;color:var(--muted)">~$30,000+</div>
+        <div class="cost-bar" style="width:100%;background:var(--rose);height:6px;border-radius:3px;margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div class="concept-grid" style="margin-top:24px;">
+      <div class="card green">
+        <div class="card-badge">Shift-Left Wins</div>
+        <h3>Early Detection</h3>
+        <ul>
+          <li>Threat modeling catches architectural flaws before code</li>
+          <li>Pre-commit hooks catch secrets in seconds</li>
+          <li>SAST in CI catches injection flaws on every push</li>
+          <li>SCA flags vulnerable dependencies at build time</li>
+        </ul>
+      </div>
+      <div class="card rose">
+        <div class="card-badge">Late Detection Costs</div>
+        <h3>Why Production Fixes Are Expensive</h3>
+        <ul>
+          <li>Emergency patches disrupt planned work</li>
+          <li>Customer data may already be compromised</li>
+          <li>Regulatory fines and reputational damage</li>
+          <li>Rollbacks and incident response consume weeks</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VIEW 4: Comparison ============ -->
+  <section id="view-comparison" class="view">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Evolution</div>
+        <h2>DevOps vs DevSecOps</h2>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Dimension</th><th>Classic DevOps</th><th>DevSecOps</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Security timing</strong></td>
+            <td>Often late — pre-prod audit or pen test <span class="tag tag-rose">reactive</span></td>
+            <td>Continuous, starting in design phase <span class="tag tag-green">proactive</span></td>
+          </tr>
+          <tr>
+            <td><strong>Ownership</strong></td>
+            <td>Security team as gatekeeper <span class="tag tag-rose">siloed</span></td>
+            <td>Shared: devs, ops, and security <span class="tag tag-green">collaborative</span></td>
+          </tr>
+          <tr>
+            <td><strong>Automation</strong></td>
+            <td>Build, deploy, monitor</td>
+            <td>+ policy as code, scans, compliance checks</td>
+          </tr>
+          <tr>
+            <td><strong>Feedback loops</strong></td>
+            <td>Velocity, availability metrics</td>
+            <td>+ risk score, CVE count, misconfiguration rate</td>
+          </tr>
+          <tr>
+            <td><strong>Culture</strong></td>
+            <td>"You build it, you run it"</td>
+            <td>"You secure it as you build &amp; run it"</td>
+          </tr>
+          <tr>
+            <td><strong>Compliance</strong></td>
+            <td>Periodic manual audits</td>
+            <td>Continuous automated compliance (CIS, PCI) <span class="tag tag-green">real-time</span></td>
+          </tr>
+          <tr>
+            <td><strong>Incident response</strong></td>
+            <td>React after breach</td>
+            <td>Prevent + detect + auto-remediate <span class="tag tag-green">shift-left</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note" style="margin-top:20px;">
+      <strong>Bottom line:</strong> DevSecOps is not replacing DevOps — it is DevOps matured. Security becomes a first-class citizen alongside velocity and reliability.
+    </div>
+  </section>
+
+  <!-- ============ VIEW 5: Tools ============ -->
+  <section id="view-tools" class="view">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Toolchain</div>
+        <h2>DevSecOps Tools by Category</h2>
+      </div>
+    </div>
+    <p style="color:var(--slate);margin-bottom:16px;">Pick tools that match your stack. Integrate results into the same backlog and SLAs as functional bugs.</p>
+
+    <div class="tool-grid">
+      <div class="tool-card">
+        <h4><span class="tool-dot" style="background:#7c3aed"></span> Pre-commit / Secrets</h4>
+        <p><strong>git-secrets</strong>, Gitleaks, TruffleHog — catch API keys, passwords, and tokens before they reach the repo.</p>
+      </div>
+      <div class="tool-card">
+        <h4><span class="tool-dot" style="background:#2563eb"></span> SAST / Code Quality</h4>
+        <p><strong>Semgrep</strong>, SonarQube, Checkmarx, Fortify — analyze source code for injection, XSS, and logic flaws without executing.</p>
+      </div>
+      <div class="tool-card">
+        <h4><span class="tool-dot" style="background:#059669"></span> SCA / Dependencies</h4>
+        <p><strong>Snyk</strong>, OWASP Dependency-Check, npm audit — find known CVEs in open-source libraries and license issues.</p>
+      </div>
+      <div class="tool-card">
+        <h4><span class="tool-dot" style="background:#d97706"></span> DAST / API Testing</h4>
+        <p><strong>OWASP ZAP</strong>, Burp Suite, Acunetix — test running applications for runtime vulnerabilities.</p>
+      </div>
+      <div class="tool-card">
+        <h4><span class="tool-dot" style="background:#0891b2"></span> Infrastructure / IaC</h4>
+        <p><strong>Checkov</strong>, tfsec, Prowler, CSPM suites — scan Terraform, CloudFormation, and cloud configs for misconfigurations.</p>
+      </div>
+      <div class="tool-card">
+        <h4><span class="tool-dot" style="background:#e11d48"></span> Runtime / Kubernetes</h4>
+        <p><strong>Falco</strong>, Kyverno, OPA/Gatekeeper — enforce policies and detect anomalous behavior at runtime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VIEW 6: Quiz ============ -->
+  <section id="view-quiz" class="view">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Knowledge Check</div>
+        <h2>Self-Check: DevSecOps Fundamentals</h2>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-q" id="q1">
+        <p>1. What does "shift-left" mean in DevSecOps?</p>
+        <div class="quiz-opt" onclick="checkAnswer(this,'q1',false)">Move security testing to production monitoring</div>
+        <div class="quiz-opt" onclick="checkAnswer(this,'q1',true)">Move security activities earlier in the development lifecycle</div>
+        <div class="quiz-opt" onclick="checkAnswer(this,'q1',false)">Replace the security team with automated tools</div>
+        <div class="quiz-feedback" id="fb-q1"></div>
+      </div>
+
+      <div class="quiz-q" id="q2">
+        <p>2. Which tool category scans source code WITHOUT executing the application?</p>
+        <div class="quiz-opt" onclick="checkAnswer(this,'q2',false)">DAST</div>
+        <div class="quiz-opt" onclick="checkAnswer(this,'q2',true)">SAST</div>
+        <div class="quiz-opt" onclick="checkAnswer(this,'q2',false)">SCA</div>
+        <div class="quiz-feedback" id="fb-q2"></div>
+      </div>
+
+      <div class="quiz-q" id="q3">
+        <p>3. In DevSecOps, who is responsible for security?</p>
+        <div class="quiz-opt" onclick="checkAnswer(this,'q3',false)">Only the security team</div>
+        <div class="quiz-opt" onclick="checkAnswer(this,'q3',false)">Only DevOps engineers</div>
+        <div class="quiz-opt" onclick="checkAnswer(this,'q3',true)">Everyone — developers, operations, and security</div>
+        <div class="quiz-feedback" id="fb-q3"></div>
+      </div>
+
+      <div class="quiz-q" id="q4">
+        <p>4. What is the primary purpose of SCA (Software Composition Analysis)?</p>
+        <div class="quiz-opt" onclick="checkAnswer(this,'q4',false)">Test running applications for XSS</div>
+        <div class="quiz-opt" onclick="checkAnswer(this,'q4',false)">Scan infrastructure code for misconfigurations</div>
+        <div class="quiz-opt" onclick="checkAnswer(this,'q4',true)">Find known vulnerabilities in open-source dependencies</div>
+        <div class="quiz-feedback" id="fb-q4"></div>
+      </div>
+    </div>
+  </section>
+
 </div>
+
+<script>
+function showView(id) {
+  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+  document.querySelectorAll('.btn').forEach(function(b) { b.classList.remove('active'); });
+  var target = document.getElementById('view-' + id);
+  if (target) target.classList.add('active');
+  event.target.classList.add('active');
+}
+
+function showStage(idx) {
+  document.querySelectorAll('.pipe-stage').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.pipe-detail').forEach(function(d) { d.classList.remove('active'); });
+  document.getElementById('stage-' + idx).classList.add('active');
+  document.getElementById('detail-' + idx).classList.add('active');
+}
+
+function checkAnswer(el, qid, correct) {
+  var q = document.getElementById(qid);
+  if (q.dataset.answered) return;
+  q.dataset.answered = 'true';
+  var opts = q.querySelectorAll('.quiz-opt');
+  opts.forEach(function(o) {
+    o.style.cursor = 'default';
+    o.style.opacity = '0.7';
+  });
+  if (correct) {
+    el.classList.add('correct');
+    el.style.opacity = '1';
+  } else {
+    el.classList.add('wrong');
+    el.style.opacity = '1';
+    opts.forEach(function(o) {
+      if (o !== el && !o.classList.contains('wrong')) {
+        // find the correct one by checking its onclick
+      }
+    });
+  }
+  var fb = document.getElementById('fb-' + qid);
+  fb.style.display = 'block';
+  fb.style.color = correct ? '#16a34a' : '#e11d48';
+  fb.textContent = correct ? 'Correct!' : 'Not quite — review the section above.';
+}
+</script>
 </body>
 </html>
