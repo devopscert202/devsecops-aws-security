@@ -7,57 +7,147 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --sec-blue: #326ce5;
-      --sec-blue-deep: #1a4bc6;
-      --sec-sky: #e8f0fe;
+      --blue: #326ce5;
+      --blue-deep: #1a4bc6;
+      --blue-glow: rgba(50, 108, 229, 0.12);
+      --sky: #e8f0fe;
       --ink: #0f172a;
       --muted: #64748b;
       --surface: #f8fafc;
       --border: #e2e8f0;
-      --card-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      --green: #059669;
+      --amber: #d97706;
+      --rose: #e11d48;
+      --purple: #7c3aed;
+      --teal: #0d9488;
+      --orange: #ea580c;
     }
     body {
-      font-family: "Segoe UI", system-ui, sans-serif;
-      background: linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: linear-gradient(180deg, #f0f5ff 0%, #e8eef8 100%);
       color: var(--ink);
-      padding: 20px;
       line-height: 1.6;
       min-height: 100vh;
     }
-    .container { max-width: 1200px; margin: 0 auto; }
-    header.hero {
-      margin-bottom: 24px;
-      padding: 22px 26px;
-      border-radius: 14px;
-      background: #ffffff;
-      border: 1px solid rgba(50, 108, 229, 0.12);
-      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+    .container { max-width: 1140px; margin: 0 auto; padding: 24px 20px; }
+
+    /* Hero */
+    .hero {
+      background: white;
+      border-radius: 20px;
+      padding: 40px 32px 32px;
+      box-shadow: 0 6px 28px rgba(15, 23, 42, 0.07);
+      border: 1px solid var(--blue-glow);
       text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
     }
-    header.hero h1 {
-      font-size: 1.55rem;
-      color: var(--sec-blue);
-      margin-bottom: 8px;
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--purple), var(--teal), var(--green));
+    }
+    .hero h1 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
       font-weight: 800;
-      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
     }
-    .subtitle {
+    .hero h1 span { color: var(--blue); }
+    .hero .subtitle {
       color: var(--muted);
-      font-size: 0.94rem;
-      max-width: 720px;
-      margin: 0 auto;
+      font-size: 1rem;
+      max-width: 640px;
+      margin: 0 auto 24px;
     }
+
+    /* Pipeline Diagram */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin: 0 auto 24px;
+      max-width: 900px;
+      flex-wrap: wrap;
+    }
+    .pipe-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 10px;
+      min-width: 90px;
+      flex: 1;
+      position: relative;
+    }
+    .pipe-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      transition: transform 0.2s;
+    }
+    .pipe-stage:hover .pipe-icon { transform: scale(1.12); }
+    .pipe-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--ink);
+      text-align: center;
+      line-height: 1.2;
+    }
+    .pipe-sub {
+      font-size: 0.62rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.15;
+    }
+    .pipe-arrow {
+      font-size: 1.2rem;
+      color: #cbd5e1;
+      flex-shrink: 0;
+      margin: 0 -4px;
+      padding-bottom: 28px;
+    }
+    .bg-plan { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+    .bg-code { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    .bg-build { background: linear-gradient(135deg, #0ea5e9, #0284c7); }
+    .bg-test { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .bg-release { background: linear-gradient(135deg, #10b981, #059669); }
+    .bg-deploy { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+    .bg-operate { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+    .bg-monitor { background: linear-gradient(135deg, #ec4899, #db2777); }
+
+    .pipeline-caption {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+    .pipeline-caption strong { color: var(--blue); }
+
+    /* Search */
     .search-bar {
-      margin-top: 18px;
       display: flex;
       justify-content: center;
+      margin-top: 4px;
     }
     .search-bar input {
       width: 100%;
-      max-width: 480px;
-      padding: 10px 16px 10px 40px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      max-width: 460px;
+      padding: 11px 16px 11px 42px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
       font-size: 0.92rem;
       font-family: inherit;
       color: var(--ink);
@@ -66,269 +156,509 @@
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     .search-bar input:focus {
-      border-color: var(--sec-blue);
-      box-shadow: 0 0 0 3px rgba(50, 108, 229, 0.15);
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(50,108,229,0.12);
     }
     .search-bar input::placeholder { color: #94a3b8; }
+
+    /* Stats Row */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin: 20px 0 6px;
+      flex-wrap: wrap;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--blue);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 600;
+    }
+
+    /* No results */
     .no-results {
       text-align: center;
       color: var(--muted);
       padding: 28px 16px;
       font-size: 0.95rem;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255,255,255,0.85);
       border: 1px dashed var(--border);
       border-radius: 12px;
       margin-bottom: 20px;
       display: none;
     }
     .no-results.is-visible { display: block; }
-    .category-block { margin-bottom: 22px; }
-    .category-block.is-empty { display: none; }
-    .category-title {
-      font-size: 1.08rem;
+
+    /* Category Cards */
+    .category-section { margin-bottom: 28px; }
+    .category-section.is-empty { display: none; }
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .cat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: white;
+      flex-shrink: 0;
+    }
+    .cat-title {
+      font-size: 1.1rem;
       font-weight: 800;
-      color: var(--sec-blue-deep);
-      margin-bottom: 10px;
-      padding-bottom: 6px;
-      border-bottom: 2px solid var(--sec-sky);
+      color: var(--ink);
     }
-    .catalog {
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-    }
-    table.catalog-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .catalog-table th,
-    .catalog-table td {
-      padding: 12px 14px;
-      text-align: left;
-      vertical-align: top;
-      border-bottom: 1px solid var(--border);
-    }
-    .catalog-table th {
+    .cat-count {
       font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
       color: var(--muted);
-      background: rgba(248, 250, 252, 0.95);
-      font-weight: 700;
-    }
-    .catalog-table tbody tr:last-child td { border-bottom: none; }
-    .catalog-table tbody tr.is-hidden { display: none; }
-    .catalog-table a {
-      color: var(--sec-blue);
-      font-weight: 700;
-      text-decoration: none;
-    }
-    .catalog-table a:hover { text-decoration: underline; }
-    .file-cell {
-      font-size: 0.82rem;
-      font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
-      color: var(--muted);
-      word-break: break-all;
-    }
-    .file-cell a {
+      background: var(--surface);
+      padding: 2px 8px;
+      border-radius: 20px;
       font-weight: 600;
-      color: var(--muted);
+      border: 1px solid var(--border);
     }
-    .file-cell a:hover { color: var(--sec-blue); }
-    @media (max-width: 640px) {
-      body { padding: 12px; }
-      header.hero h1 { font-size: 1.25rem; }
-      .catalog-table thead { display: none; }
-      .catalog-table tbody tr {
-        display: block;
-        border-bottom: 1px solid var(--border);
-        padding: 10px 0;
-      }
-      .catalog-table tbody tr:last-child { border-bottom: none; }
-      .catalog-table td {
-        display: block;
-        border: none;
-        padding: 6px 14px;
-      }
-      .catalog-table td::before {
-        display: block;
-        font-size: 0.68rem;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: var(--muted);
-        margin-bottom: 2px;
-      }
-      .catalog-table td:first-child::before { content: "Topic"; }
-      .catalog-table td:last-child::before { content: "File"; }
+
+    /* Topic Grid */
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .topic-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .topic-card:hover {
+      box-shadow: 0 8px 24px rgba(50,108,229,0.1);
+      border-color: var(--blue);
+      transform: translateY(-2px);
+    }
+    .topic-card.is-hidden { display: none; }
+    .topic-name {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--blue);
+      line-height: 1.3;
+    }
+    .topic-card:hover .topic-name { color: var(--blue-deep); }
+    .topic-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* Learning Path */
+    .learning-path {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      align-items: stretch;
+      margin: 28px 0 8px;
+      flex-wrap: wrap;
+    }
+    .lp-step {
+      flex: 1;
+      min-width: 160px;
+      max-width: 220px;
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 14px 14px;
+      text-align: center;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .lp-step:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 16px rgba(50,108,229,0.08);
+    }
+    .lp-num {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .lp-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+      line-height: 1.25;
+    }
+    .lp-detail {
+      font-size: 0.7rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+    .lp-arrow {
+      display: flex;
+      align-items: center;
+      font-size: 1.4rem;
+      color: #cbd5e1;
+      padding: 0 6px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 700px) {
+      .pipeline { gap: 2px; }
+      .pipe-stage { min-width: 60px; padding: 8px 4px; }
+      .pipe-icon { width: 36px; height: 36px; font-size: 1rem; border-radius: 10px; }
+      .pipe-arrow { font-size: 0.9rem; }
+      .pipe-label { font-size: 0.62rem; }
+      .pipe-sub { display: none; }
+      .learning-path { flex-direction: column; align-items: center; }
+      .lp-arrow { transform: rotate(90deg); padding: 4px 0; }
+      .lp-step { max-width: 100%; }
+      .stats-row { gap: 20px; }
+      .topic-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <div class="container">
+
+    <!-- Hero -->
     <header class="hero">
-      <h1>DevSecOps &amp; AWS Cloud Security</h1>
-      <p class="subtitle">28 visual explainers across 7 categories — from DevSecOps fundamentals to advanced AWS security.</p>
+      <h1><span>DevSecOps</span> &amp; AWS Cloud Security</h1>
+      <p class="subtitle">Security integrated into every phase of the software delivery lifecycle — from code to cloud.</p>
+
+      <!-- DevSecOps Pipeline Diagram -->
+      <div class="pipeline">
+        <div class="pipe-stage">
+          <div class="pipe-icon bg-plan">P</div>
+          <div class="pipe-label">Plan</div>
+          <div class="pipe-sub">Threat Model</div>
+        </div>
+        <div class="pipe-arrow">&#9654;</div>
+        <div class="pipe-stage">
+          <div class="pipe-icon bg-code">C</div>
+          <div class="pipe-label">Code</div>
+          <div class="pipe-sub">Secure Code</div>
+        </div>
+        <div class="pipe-arrow">&#9654;</div>
+        <div class="pipe-stage">
+          <div class="pipe-icon bg-build">B</div>
+          <div class="pipe-label">Build</div>
+          <div class="pipe-sub">SCA</div>
+        </div>
+        <div class="pipe-arrow">&#9654;</div>
+        <div class="pipe-stage">
+          <div class="pipe-icon bg-test">T</div>
+          <div class="pipe-label">Test</div>
+          <div class="pipe-sub">SAST / DAST</div>
+        </div>
+        <div class="pipe-arrow">&#9654;</div>
+        <div class="pipe-stage">
+          <div class="pipe-icon bg-release">R</div>
+          <div class="pipe-label">Release</div>
+          <div class="pipe-sub">Sign / Verify</div>
+        </div>
+        <div class="pipe-arrow">&#9654;</div>
+        <div class="pipe-stage">
+          <div class="pipe-icon bg-deploy">D</div>
+          <div class="pipe-label">Deploy</div>
+          <div class="pipe-sub">IAM / EKS</div>
+        </div>
+        <div class="pipe-arrow">&#9654;</div>
+        <div class="pipe-stage">
+          <div class="pipe-icon bg-operate">O</div>
+          <div class="pipe-label">Operate</div>
+          <div class="pipe-sub">Security Hub</div>
+        </div>
+        <div class="pipe-arrow">&#9654;</div>
+        <div class="pipe-stage">
+          <div class="pipe-icon bg-monitor">M</div>
+          <div class="pipe-label">Monitor</div>
+          <div class="pipe-sub">CloudTrail</div>
+        </div>
+      </div>
+      <p class="pipeline-caption"><strong>Continuous Security</strong> — every stage has a security gate</p>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat"><div class="stat-num">30</div><div class="stat-label">Explainers</div></div>
+        <div class="stat"><div class="stat-num">13</div><div class="stat-label">Labs</div></div>
+        <div class="stat"><div class="stat-num">19</div><div class="stat-label">Docs</div></div>
+        <div class="stat"><div class="stat-num">7</div><div class="stat-label">Categories</div></div>
+      </div>
+
+      <!-- Search -->
       <div class="search-bar">
         <input type="text" id="catalog-search" placeholder="Search topics..." autocomplete="off" aria-label="Search topics">
       </div>
     </header>
 
+    <!-- Learning Path -->
+    <div class="learning-path">
+      <div class="lp-step" style="border-color: #6366f1;">
+        <div class="lp-num" style="color: #6366f1;">Day 1 &middot; 4 hrs</div>
+        <div class="lp-title">DevSecOps Fundamentals</div>
+        <div class="lp-detail">Threat modeling, STRIDE/DREAD/PASTA, pipeline security, SAST/DAST/SCA</div>
+      </div>
+      <div class="lp-arrow">&#9654;</div>
+      <div class="lp-step" style="border-color: #0ea5e9;">
+        <div class="lp-num" style="color: #0ea5e9;">Day 2 &middot; 2.5 hrs</div>
+        <div class="lp-title">AWS Cloud Security</div>
+        <div class="lp-detail">Security principles, shared responsibility, CodePipeline, CloudTrail</div>
+      </div>
+      <div class="lp-arrow">&#9654;</div>
+      <div class="lp-step" style="border-color: #059669;">
+        <div class="lp-num" style="color: #059669;">Day 2 &middot; 1.5 hrs</div>
+        <div class="lp-title">Advanced AWS Security</div>
+        <div class="lp-detail">EKS security, Security Hub, IAM best practices, MFA</div>
+      </div>
+    </div>
+
     <div id="no-results" class="no-results" role="status" aria-live="polite">No topics match your search.</div>
 
-    <section class="category-block" data-category>
-      <h2 class="category-title">DevSecOps Fundamentals</h2>
-      <div class="catalog">
-        <table class="catalog-table">
-          <thead>
-            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
-          </thead>
-          <tbody>
-            <tr data-topic="What Is DevSecOps?"><td><a href="./devsecops-overview.html">What Is DevSecOps?</a></td><td class="file-cell"><a href="./devsecops-overview.html">devsecops-overview.html</a></td></tr>
-            <tr data-topic="Threat Modeling Fundamentals"><td><a href="./threat-modeling.html">Threat Modeling Fundamentals</a></td><td class="file-cell"><a href="./threat-modeling.html">threat-modeling.html</a></td></tr>
-            <tr data-topic="STRIDE, DREAD & PASTA Frameworks"><td><a href="./stride-dread-pasta.html">STRIDE, DREAD &amp; PASTA Frameworks</a></td><td class="file-cell"><a href="./stride-dread-pasta.html">stride-dread-pasta.html</a></td></tr>
-            <tr data-topic="Securing the DevSecOps Pipeline"><td><a href="./devsecops-pipeline.html">Securing the DevSecOps Pipeline</a></td><td class="file-cell"><a href="./devsecops-pipeline.html">devsecops-pipeline.html</a></td></tr>
-            <tr data-topic="DevSecOps Tools Landscape"><td><a href="./devsecops-tools-landscape.html">DevSecOps Tools Landscape</a></td><td class="file-cell"><a href="./devsecops-tools-landscape.html">devsecops-tools-landscape.html</a></td></tr>
-            <tr data-topic="Debugging in DevSecOps"><td><a href="./debugging-devsecops.html">Debugging in DevSecOps</a></td><td class="file-cell"><a href="./debugging-devsecops.html">debugging-devsecops.html</a></td></tr>
-          </tbody>
-        </table>
+    <!-- Category 1: DevSecOps Fundamentals -->
+    <section class="category-section" data-category>
+      <div class="cat-header">
+        <div class="cat-icon bg-plan">&#128737;</div>
+        <div class="cat-title">DevSecOps Fundamentals</div>
+        <span class="cat-count">6 topics</span>
+      </div>
+      <div class="topic-grid">
+        <a href="devsecops-overview.html" class="topic-card" data-topic="What Is DevSecOps Overview Shift Left">
+          <div class="topic-name">What Is DevSecOps?</div>
+          <div class="topic-desc">DevSecOps overview, shift-left security, best practices, and tools landscape</div>
+        </a>
+        <a href="threat-modeling.html" class="topic-card" data-topic="Threat Modeling Fundamentals Process Techniques">
+          <div class="topic-name">Threat Modeling Fundamentals</div>
+          <div class="topic-desc">Proactive threat identification, 4-step process, tools, and banking use case</div>
+        </a>
+        <a href="stride-dread-pasta.html" class="topic-card" data-topic="STRIDE DREAD PASTA Threat Modeling Frameworks Comparison">
+          <div class="topic-name">STRIDE, DREAD &amp; PASTA</div>
+          <div class="topic-desc">Three threat modeling frameworks compared — scoring, stages, and real-world examples</div>
+        </a>
+        <a href="devsecops-pipeline.html" class="topic-card" data-topic="DevSecOps Pipeline Phases Security Gates CI CD">
+          <div class="topic-name">DevSecOps Pipeline Security</div>
+          <div class="topic-desc">Pipeline phases from Plan to Monitor with security gates at every stage</div>
+        </a>
+        <a href="devsecops-tools-landscape.html" class="topic-card" data-topic="DevSecOps Tools Landscape Categories Selection">
+          <div class="topic-name">DevSecOps Tools Landscape</div>
+          <div class="topic-desc">Tool categories, selection criteria, and integration patterns</div>
+        </a>
+        <a href="debugging-devsecops.html" class="topic-card" data-topic="Debugging DevSecOps Pipelines Strategies Logs">
+          <div class="topic-name">Debugging in DevSecOps</div>
+          <div class="topic-desc">Strategies for debugging security issues in CI/CD pipelines</div>
+        </a>
       </div>
     </section>
 
-    <section class="category-block" data-category>
-      <h2 class="category-title">Application Security Testing</h2>
-      <div class="catalog">
-        <table class="catalog-table">
-          <thead>
-            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
-          </thead>
-          <tbody>
-            <tr data-topic="SAST — Static Analysis"><td><a href="./sast-scanning.html">SAST — Static Analysis</a></td><td class="file-cell"><a href="./sast-scanning.html">sast-scanning.html</a></td></tr>
-            <tr data-topic="DAST — Dynamic Analysis"><td><a href="./dast-scanning.html">DAST — Dynamic Analysis</a></td><td class="file-cell"><a href="./dast-scanning.html">dast-scanning.html</a></td></tr>
-            <tr data-topic="SCA — Dependency Analysis"><td><a href="./sca-dependency-check.html">SCA — Dependency Analysis</a></td><td class="file-cell"><a href="./sca-dependency-check.html">sca-dependency-check.html</a></td></tr>
-            <tr data-topic="SAST vs DAST vs SCA"><td><a href="./sast-vs-dast-vs-sca.html">SAST vs DAST vs SCA</a></td><td class="file-cell"><a href="./sast-vs-dast-vs-sca.html">sast-vs-dast-vs-sca.html</a></td></tr>
-            <tr data-topic="Penetration Testing"><td><a href="./penetration-testing.html">Penetration Testing</a></td><td class="file-cell"><a href="./penetration-testing.html">penetration-testing.html</a></td></tr>
-          </tbody>
-        </table>
+    <!-- Category 2: Application Security Testing -->
+    <section class="category-section" data-category>
+      <div class="cat-header">
+        <div class="cat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">&#128269;</div>
+        <div class="cat-title">Application Security Testing</div>
+        <span class="cat-count">5 topics</span>
+      </div>
+      <div class="topic-grid">
+        <a href="sast-scanning.html" class="topic-card" data-topic="SAST Static Application Security Testing Semgrep SonarQube">
+          <div class="topic-name">SAST &mdash; Static Analysis</div>
+          <div class="topic-desc">Analyze source code without execution — Semgrep, SonarQube, Checkmarx</div>
+        </a>
+        <a href="dast-scanning.html" class="topic-card" data-topic="DAST Dynamic Application Security Testing OWASP ZAP Burp">
+          <div class="topic-name">DAST &mdash; Dynamic Analysis</div>
+          <div class="topic-desc">Test running applications for vulnerabilities — OWASP ZAP, Burp Suite</div>
+        </a>
+        <a href="sca-dependency-check.html" class="topic-card" data-topic="SCA Software Composition Analysis Dependency Check Snyk">
+          <div class="topic-name">SCA &mdash; Dependency Analysis</div>
+          <div class="topic-desc">Open-source vulnerability scanning — OWASP Dependency-Check, Snyk</div>
+        </a>
+        <a href="sast-vs-dast-vs-sca.html" class="topic-card" data-topic="SAST vs DAST vs SCA Comparison When to Use">
+          <div class="topic-name">SAST vs DAST vs SCA</div>
+          <div class="topic-desc">Side-by-side comparison — what they test, when they run, and trade-offs</div>
+        </a>
+        <a href="penetration-testing.html" class="topic-card" data-topic="Penetration Testing Types Black Box White Box Gray">
+          <div class="topic-name">Penetration Testing</div>
+          <div class="topic-desc">Types, methodologies, and automated pen testing with OWASP ZAP</div>
+        </a>
       </div>
     </section>
 
-    <section class="category-block" data-category>
-      <h2 class="category-title">Secure Development</h2>
-      <div class="catalog">
-        <table class="catalog-table">
-          <thead>
-            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
-          </thead>
-          <tbody>
-            <tr data-topic="Vulnerability Management"><td><a href="./vulnerability-management.html">Vulnerability Management</a></td><td class="file-cell"><a href="./vulnerability-management.html">vulnerability-management.html</a></td></tr>
-            <tr data-topic="Secure Coding Techniques"><td><a href="./secure-coding.html">Secure Coding Techniques</a></td><td class="file-cell"><a href="./secure-coding.html">secure-coding.html</a></td></tr>
-          </tbody>
-        </table>
+    <!-- Category 3: Secure Development -->
+    <section class="category-section" data-category>
+      <div class="cat-header">
+        <div class="cat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">&#128272;</div>
+        <div class="cat-title">Secure Development</div>
+        <span class="cat-count">2 topics</span>
+      </div>
+      <div class="topic-grid">
+        <a href="vulnerability-management.html" class="topic-card" data-topic="Vulnerability Management Lifecycle CVE Remediation">
+          <div class="topic-name">Vulnerability Management</div>
+          <div class="topic-desc">Full lifecycle — discover, prioritize, remediate, and verify vulnerabilities</div>
+        </a>
+        <a href="secure-coding.html" class="topic-card" data-topic="Secure Coding Techniques Input Validation OWASP">
+          <div class="topic-name">Secure Coding Techniques</div>
+          <div class="topic-desc">Input validation, output encoding, authentication, and error handling</div>
+        </a>
       </div>
     </section>
 
-    <section class="category-block" data-category>
-      <h2 class="category-title">Security Principles</h2>
-      <div class="catalog">
-        <table class="catalog-table">
-          <thead>
-            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
-          </thead>
-          <tbody>
-            <tr data-topic="Security Principles for DevSecOps"><td><a href="./security-principles.html">Security Principles for DevSecOps</a></td><td class="file-cell"><a href="./security-principles.html">security-principles.html</a></td></tr>
-            <tr data-topic="CIA Triad, OWASP Top 10 & CIS"><td><a href="./cia-triad.html">CIA Triad, OWASP Top 10 &amp; CIS</a></td><td class="file-cell"><a href="./cia-triad.html">cia-triad.html</a></td></tr>
-            <tr data-topic="OWASP Top 10 Deep Dive"><td><a href="./owasp-top-10.html">OWASP Top 10 Deep Dive</a></td><td class="file-cell"><a href="./owasp-top-10.html">owasp-top-10.html</a></td></tr>
-          </tbody>
-        </table>
+    <!-- Category 4: Security Principles -->
+    <section class="category-section" data-category>
+      <div class="cat-header">
+        <div class="cat-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">&#127919;</div>
+        <div class="cat-title">Security Principles</div>
+        <span class="cat-count">4 topics</span>
+      </div>
+      <div class="topic-grid">
+        <a href="security-principles.html" class="topic-card" data-topic="Security Principles Defense Depth Least Privilege AuthN AuthZ">
+          <div class="topic-name">Security Principles</div>
+          <div class="topic-desc">Defense in Depth, Least Privilege, Authentication vs Authorization</div>
+        </a>
+        <a href="cia-triad.html" class="topic-card" data-topic="CIA Triad Confidentiality Integrity Availability">
+          <div class="topic-name">CIA Triad</div>
+          <div class="topic-desc">Confidentiality, Integrity, Availability — the three pillars of information security</div>
+        </a>
+        <a href="owasp-top-10.html" class="topic-card" data-topic="OWASP Top 10 Web Application Vulnerabilities Injection XSS">
+          <div class="topic-name">OWASP Top 10</div>
+          <div class="topic-desc">The 10 most critical web application security risks explained</div>
+        </a>
+        <a href="cis-controls.html" class="topic-card" data-topic="CIS Controls 18 Framework Implementation Groups">
+          <div class="topic-name">CIS Controls Framework</div>
+          <div class="topic-desc">All 18 CIS Controls grouped by Implementation Groups</div>
+        </a>
       </div>
     </section>
 
-    <section class="category-block" data-category>
-      <h2 class="category-title">AWS Cloud Security</h2>
-      <div class="catalog">
-        <table class="catalog-table">
-          <thead>
-            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
-          </thead>
-          <tbody>
-            <tr data-topic="AWS Shared Responsibility Model"><td><a href="./aws-shared-responsibility.html">AWS Shared Responsibility Model</a></td><td class="file-cell"><a href="./aws-shared-responsibility.html">aws-shared-responsibility.html</a></td></tr>
-            <tr data-topic="Security in AWS CodePipeline"><td><a href="./aws-codepipeline-security.html">Security in AWS CodePipeline</a></td><td class="file-cell"><a href="./aws-codepipeline-security.html">aws-codepipeline-security.html</a></td></tr>
-            <tr data-topic="Debugging AWS Cloud Security"><td><a href="./debugging-aws-security.html">Debugging AWS Cloud Security</a></td><td class="file-cell"><a href="./debugging-aws-security.html">debugging-aws-security.html</a></td></tr>
-            <tr data-topic="CIS Controls Framework"><td><a href="./cis-controls.html">CIS Controls Framework</a></td><td class="file-cell"><a href="./cis-controls.html">cis-controls.html</a></td></tr>
-            <tr data-topic="IAM Security Best Practices"><td><a href="./iam-best-practices.html">IAM Security Best Practices</a></td><td class="file-cell"><a href="./iam-best-practices.html">iam-best-practices.html</a></td></tr>
-          </tbody>
-        </table>
+    <!-- Category 5: AWS Cloud Security -->
+    <section class="category-section" data-category>
+      <div class="cat-header">
+        <div class="cat-icon" style="background: linear-gradient(135deg, #0ea5e9, #0284c7);">&#9729;</div>
+        <div class="cat-title">AWS Cloud Security</div>
+        <span class="cat-count">5 topics</span>
+      </div>
+      <div class="topic-grid">
+        <a href="aws-shared-responsibility.html" class="topic-card" data-topic="AWS Shared Responsibility Model Security Cloud Customer">
+          <div class="topic-name">AWS Shared Responsibility Model</div>
+          <div class="topic-desc">What AWS secures vs what you secure — mapped by service type</div>
+        </a>
+        <a href="aws-codepipeline-security.html" class="topic-card" data-topic="AWS CodePipeline Security KMS Encryption IAM Logging">
+          <div class="topic-name">CodePipeline Security</div>
+          <div class="topic-desc">Data protection, IAM, KMS encryption, and compliance in CI/CD</div>
+        </a>
+        <a href="debugging-aws-security.html" class="topic-card" data-topic="Debugging AWS Security IAM CloudTrail Security Groups">
+          <div class="topic-name">Debugging AWS Security</div>
+          <div class="topic-desc">Debug IAM, CodePipeline, and security group misconfigurations</div>
+        </a>
+        <a href="iam-best-practices.html" class="topic-card" data-topic="IAM Best Practices MFA Least Privilege Roles CloudTrail">
+          <div class="topic-name">IAM Best Practices</div>
+          <div class="topic-desc">MFA, least privilege, roles over access keys, CloudTrail monitoring</div>
+        </a>
+        <a href="threat-modeling-ecommerce.html" class="topic-card" data-topic="Threat Modeling E-Commerce Case Study Real World">
+          <div class="topic-name">Threat Modeling: E-Commerce</div>
+          <div class="topic-desc">Real-world case study applying threat modeling to payment systems</div>
+        </a>
       </div>
     </section>
 
-    <section class="category-block" data-category>
-      <h2 class="category-title">AWS Security Services</h2>
-      <div class="catalog">
-        <table class="catalog-table">
-          <thead>
-            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
-          </thead>
-          <tbody>
-            <tr data-topic="Amazon EKS Security"><td><a href="./amazon-eks-security.html">Amazon EKS Security</a></td><td class="file-cell"><a href="./amazon-eks-security.html">amazon-eks-security.html</a></td></tr>
-            <tr data-topic="AWS Security Hub"><td><a href="./aws-security-hub.html">AWS Security Hub</a></td><td class="file-cell"><a href="./aws-security-hub.html">aws-security-hub.html</a></td></tr>
-            <tr data-topic="Amazon GuardDuty"><td><a href="./aws-guardduty.html">Amazon GuardDuty</a></td><td class="file-cell"><a href="./aws-guardduty.html">aws-guardduty.html</a></td></tr>
-            <tr data-topic="AWS KMS"><td><a href="./aws-kms.html">AWS KMS</a></td><td class="file-cell"><a href="./aws-kms.html">aws-kms.html</a></td></tr>
-            <tr data-topic="Amazon Inspector"><td><a href="./aws-inspector.html">Amazon Inspector</a></td><td class="file-cell"><a href="./aws-inspector.html">aws-inspector.html</a></td></tr>
-          </tbody>
-        </table>
+    <!-- Category 6: AWS Security Services -->
+    <section class="category-section" data-category>
+      <div class="cat-header">
+        <div class="cat-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">&#128737;</div>
+        <div class="cat-title">AWS Security Services</div>
+        <span class="cat-count">5 topics</span>
+      </div>
+      <div class="topic-grid">
+        <a href="amazon-eks-security.html" class="topic-card" data-topic="Amazon EKS Security Kubernetes Cluster Certificate Service Accounts">
+          <div class="topic-name">Amazon EKS Security</div>
+          <div class="topic-desc">EKS architecture, private endpoints, certificate signing, IRSA</div>
+        </a>
+        <a href="aws-security-hub.html" class="topic-card" data-topic="AWS Security Hub Findings Compliance CIS PCI">
+          <div class="topic-name">AWS Security Hub</div>
+          <div class="topic-desc">Centralized security view, automated compliance checks, findings</div>
+        </a>
+        <a href="aws-guardduty.html" class="topic-card" data-topic="Amazon GuardDuty Threat Detection Intelligent">
+          <div class="topic-name">Amazon GuardDuty</div>
+          <div class="topic-desc">Intelligent threat detection using CloudTrail, VPC Flow Logs, DNS</div>
+        </a>
+        <a href="aws-kms.html" class="topic-card" data-topic="AWS KMS Key Management Encryption Symmetric Asymmetric">
+          <div class="topic-name">AWS KMS</div>
+          <div class="topic-desc">Key types, envelope encryption, rotation, and service integration</div>
+        </a>
+        <a href="aws-inspector.html" class="topic-card" data-topic="Amazon Inspector Vulnerability Assessment EC2 Container">
+          <div class="topic-name">Amazon Inspector</div>
+          <div class="topic-desc">Automated vulnerability scanning for EC2 and container workloads</div>
+        </a>
       </div>
     </section>
 
-    <section class="category-block" data-category>
-      <h2 class="category-title">Data Protection</h2>
-      <div class="catalog">
-        <table class="catalog-table">
-          <thead>
-            <tr><th scope="col">Topic</th><th scope="col">File</th></tr>
-          </thead>
-          <tbody>
-            <tr data-topic="Amazon Macie"><td><a href="./aws-macie.html">Amazon Macie</a></td><td class="file-cell"><a href="./aws-macie.html">aws-macie.html</a></td></tr>
-          </tbody>
-        </table>
+    <!-- Category 7: Data Protection -->
+    <section class="category-section" data-category>
+      <div class="cat-header">
+        <div class="cat-icon" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">&#128274;</div>
+        <div class="cat-title">Data Protection</div>
+        <span class="cat-count">2 topics</span>
+      </div>
+      <div class="topic-grid">
+        <a href="aws-macie.html" class="topic-card" data-topic="Amazon Macie Sensitive Data Discovery S3 PII">
+          <div class="topic-name">Amazon Macie</div>
+          <div class="topic-desc">ML-powered sensitive data discovery and PII detection in S3</div>
+        </a>
+        <a href="aws-config.html" class="topic-card" data-topic="AWS Config Resource Compliance Rules Conformance">
+          <div class="topic-name">AWS Config</div>
+          <div class="topic-desc">Resource inventory, configuration compliance, and remediation rules</div>
+        </a>
       </div>
     </section>
+
   </div>
+
   <script>
     (function () {
       var input = document.getElementById('catalog-search');
       var noResults = document.getElementById('no-results');
-      var categories = document.querySelectorAll('.category-block[data-category]');
+      var sections = document.querySelectorAll('.category-section[data-category]');
 
-      function normalize(s) {
-        return (s || '').toLowerCase().trim();
-      }
+      function normalize(s) { return (s || '').toLowerCase().trim(); }
 
       function applyFilter() {
         var q = normalize(input.value);
         var anyVisible = false;
 
-        categories.forEach(function (block) {
-          var visibleInBlock = 0;
-          var rows = block.querySelectorAll('tbody tr[data-topic]');
-          rows.forEach(function (tr) {
-            var topic = normalize(tr.getAttribute('data-topic'));
-            var match = !q || topic.indexOf(q) !== -1;
-            tr.classList.toggle('is-hidden', !match);
-            if (match) {
-              visibleInBlock++;
-              anyVisible = true;
-            }
+        sections.forEach(function (sec) {
+          var visible = 0;
+          sec.querySelectorAll('.topic-card[data-topic]').forEach(function (card) {
+            var text = normalize(card.getAttribute('data-topic') + ' ' + card.textContent);
+            var match = !q || text.indexOf(q) !== -1;
+            card.classList.toggle('is-hidden', !match);
+            if (match) { visible++; anyVisible = true; }
           });
-          block.classList.toggle('is-empty', visibleInBlock === 0);
+          sec.classList.toggle('is-empty', visible === 0);
         });
 
         noResults.classList.toggle('is-visible', !anyVisible);
       }
 
       input.addEventListener('input', applyFilter);
-      applyFilter();
     })();
   </script>
 </body>
